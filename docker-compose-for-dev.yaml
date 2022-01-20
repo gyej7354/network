@@ -1,0 +1,17 @@
+version: '3'
+
+volumes:
+  network-for-dev:
+
+services:
+  network-for-dev:
+    container_name: network-for-dev
+    image: neo4j:latest
+    restart: always
+    environment:
+      - NEO4J_AUTH=none
+    volumes:
+      - ./DevDB/data/:/data/
+    ports:
+      - 7474:7474
+      - 7687:7687

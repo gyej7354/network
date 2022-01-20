@@ -1,0 +1,10 @@
+{
+  "name": "open-api-generator-package",
+  "version": "0.0.0",
+  "scripts": {
+    "generate": "openapi-generator-cli generate -i openapi.yaml -g nodejs-express-server -o ../server"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.3.5"
+  }
+}

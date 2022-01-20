@@ -1,0 +1,101 @@
+openapi: 3.0.1
+info:
+  title: Network-API
+  version: 0.0.1-SNAPSHOT
+servers:
+- url: /api/v1/
+paths:
+  /users/{userId}:
+    get:
+      description: Get user info
+      operationId: getUser
+      parameters:
+      - description: Id of the user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserResponse'
+          description: User's project list
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+      - User
+      x-eov-operation-handler: controllers/UserController
+  /users/:
+    post:
+      description: Create a new user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+        description: Create user input
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserResponse'
+          description: User info
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+      - User
+      x-eov-operation-handler: controllers/UserController
+components:
+  schemas:
+    Date:
+      example: 2021-07-28T14:37:09.234Z
+      title: Date in JSON format
+      type: string
+    NullableEmptyObject:
+      additionalProperties: false
+      nullable: true
+      title: Nullable empty object
+      type: object
+    CreateUserRequest:
+      additionalProperties: false
+      example:
+        name: John
+      properties:
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    GetUserResponse:
+      additionalProperties: false
+      example:
+        name: name
+        userId: userId
+      properties:
+        userId:
+          type: string
+        name:
+          type: string
+      required:
+      - name
+      - userId
+      type: object
+    ErrorResponse:
+      additionalProperties: true
+      type: object
