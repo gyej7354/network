@@ -63,17 +63,6 @@ paths:
 
 components:
   schemas:
-    Date:
-      title: Date in JSON format
-      type: string
-      example: 2021-07-28T14:37:09.234Z
-
-    NullableEmptyObject:
-      title: Nullable empty object
-      type: object
-      additionalProperties: false
-      nullable: true
-
     CreateUserRequest:
       type: object
       additionalProperties: false
@@ -83,7 +72,7 @@ components:
         name:
           type: string
       example:
-        name: John
+        name: Olivier
 
     GetUserResponse:
       type: object

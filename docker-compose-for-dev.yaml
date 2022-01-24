@@ -8,8 +8,6 @@ services:
     container_name: network-for-dev
     image: neo4j:latest
     restart: always
-    environment:
-      - NEO4J_AUTH=none
     volumes:
       - ./DevDB/data/:/data/
     ports:

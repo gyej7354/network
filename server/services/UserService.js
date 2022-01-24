@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 const Service = require('./Service');
+const LocalStorageProvider = require('../providers/LocalStorageProvider');
+const UserMapper = require('../core/UserMapper');
 
 /**
 * Create a new user
@@ -10,14 +12,16 @@ const Service = require('./Service');
 const createUser = ({ createUserRequest }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse({
-        createUserRequest,
-      }));
+      const userToCreate = {
+        name: createUserRequest.name
+      }
+      const createUserResp = await LocalStorageProvider.createUser(userToCreate);
+      const returnedResponse = UserMapper.getResponseBodyForGetUser(createUserResp);
+
+      resolve(Service.successResponse(returnedResponse, 201));
+
     } catch (e) {
-      reject(Service.rejectResponse(
-        e.message || 'Invalid input',
-        e.status || 405,
-      ));
+      reject(Service.rejectResponse(e));
     }
   },
 );
@@ -30,14 +34,13 @@ const createUser = ({ createUserRequest }) => new Promise(
 const getUser = ({ userId }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse({
-        userId,
-      }));
+      const getUserResp = await LocalStorageProvider.getUser(userId);
+      const returnedResponse = UserMapper.getResponseBodyForGetUser(getUserResp);
+
+      resolve(Service.successResponse(returnedResponse, 200));
+
     } catch (e) {
-      reject(Service.rejectResponse(
-        e.message || 'Invalid input',
-        e.status || 405,
-      ));
+      reject(Service.rejectResponse(e));
     }
   },
 );

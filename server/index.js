@@ -2,10 +2,13 @@ const config = require('./config');
 const logger = require('./logger');
 const ExpressServer = require('./expressServer');
 
+let expressServer = undefined;
+
+
 const launchServer = async () => {
   try {
-    this.expressServer = new ExpressServer(config.URL_PORT, config.OPENAPI_YAML);
-    this.expressServer.launch();
+    expressServer = new ExpressServer(config.URL_PORT, config.OPENAPI_YAML);
+    expressServer.launch();
     logger.info('Express server running');
   } catch (error) {
     logger.error('Express Server failure', error.message);
@@ -14,3 +17,6 @@ const launchServer = async () => {
 };
 
 launchServer().catch(e => logger.error(e));
+
+// for tests
+module.exports = expressServer.app;

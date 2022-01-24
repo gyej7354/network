@@ -12,4 +12,11 @@ config.OPENAPI_YAML = path.join(config.ROOT_DIR, 'api', 'openapi.yaml');
 config.FULL_PATH = `${config.URL_PATH}:${config.URL_PORT}/${config.BASE_VERSION}`;
 config.FILE_UPLOAD_PATH = path.join(config.PROJECT_DIR, 'uploaded_files');
 
+// Neo4J configuration
+config.NEO4J_USERNAME = 'neo4j'
+config.NEO4J_PASSWORD = 'mikado'
+config.NEO4J_DB_URL = 'bolt://localhost:7687'
+
+
+
 module.exports = config;

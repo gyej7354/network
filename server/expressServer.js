@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const { OpenApiValidator } = require('express-openapi-validator');
 const logger = require('./logger');
 const config = require('./config');
+const Neo4JSession = require('./providers/dao/Neo4jSession')
 
 class ExpressServer {
   constructor(port, openApiYaml) {
@@ -49,6 +50,14 @@ class ExpressServer {
   }
 
   launch() {
+    // Open Database connection
+    try {
+      let neo4JSessionInstance = new Neo4JSession().getInstance();
+    } catch (e) {
+      console.log(`Closing server for DB connection failed.`);
+      process.exit();
+    }
+
     new OpenApiValidator({
       apiSpec: this.openApiPath,
       operationHandlers: path.join(__dirname),
@@ -72,7 +81,9 @@ class ExpressServer {
 
 
   async close() {
+
     if (this.server !== undefined) {
+      new Neo4JSession().closeConnection();
       await this.server.close();
       console.log(`Server on port ${this.port} shut down`);
     }
