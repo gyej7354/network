@@ -45,7 +45,25 @@ const getActivity = ({ activityId }) => new Promise(
   },
 );
 
+/**
+ * Get activity list
+ *
+ * returns List
+ * */
+const getActivities = () => new Promise(
+  async (resolve, reject) => {
+    try {
+      const getActivitiesResp = await LocalStorageProvider.getActivities();
+      const returnedResponse = ActivityMapper.getResponseBodyForGetActivities(getActivitiesResp);
+      resolve(Service.successResponse(returnedResponse, 200));
+    } catch (e) {
+      reject(Service.rejectResponse(e));
+    }
+  },
+);
+
 module.exports = {
   createActivity,
   getActivity,
+  getActivities
 };

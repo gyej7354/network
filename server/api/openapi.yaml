@@ -35,6 +35,25 @@ paths:
       - User
       x-eov-operation-handler: controllers/UserController
   /users/:
+    get:
+      description: Get user list
+      operationId: getUsers
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsersResponse'
+          description: User list
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+      - User
+      x-eov-operation-handler: controllers/UserController
     post:
       description: Create a new user
       operationId: createUser
@@ -91,6 +110,25 @@ paths:
       - Activity
       x-eov-operation-handler: controllers/ActivityController
   /activity/:
+    get:
+      description: Get activity list
+      operationId: getActivities
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetActivitiesResponse'
+          description: Activity list
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+      - Activity
+      x-eov-operation-handler: controllers/ActivityController
     post:
       description: Create a new activity
       operationId: createActivity
@@ -143,6 +181,16 @@ components:
       - name
       - userId
       type: object
+    GetUsersResponse:
+      additionalProperties: false
+      example:
+      - name: Guillaume
+        userId: 467366a1-af34-468a-9363-480699272ee0
+      - name: Olivier
+        userId: 467366a1-af34-468a-9363-480699272ee1
+      items:
+        $ref: '#/components/schemas/GetUserResponse'
+      type: array
     CreateActivityRequest:
       additionalProperties: false
       example:
@@ -167,6 +215,16 @@ components:
       - activityId
       - name
       type: object
+    GetActivitiesResponse:
+      additionalProperties: false
+      example:
+      - name: Cooking
+        activityId: 467366a1-af34-468a-9363-480699272ee0
+      - name: Tennis
+        activityId: 467366a1-af34-468a-9363-480699272ee1
+      items:
+        $ref: '#/components/schemas/GetActivityResponse'
+      type: array
     ErrorResponse:
       additionalProperties: true
       type: object

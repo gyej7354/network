@@ -3,7 +3,5 @@ controllers/ActivityController.js
 controllers/Controller.js
 controllers/UserController.js
 controllers/index.js
-services/ActivityService.js
-services/Service.js
 services/index.js
 utils/openapiRouter.js

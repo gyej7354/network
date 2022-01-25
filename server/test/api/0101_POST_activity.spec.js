@@ -10,7 +10,7 @@ const expect = require('chai').expect;
 
 const globalVersion = '/api/v1';
 
-describe(`Tests POST /activitys/ API`, function() {
+describe(`Tests POST /activity/ API`, function() {
 
     before((done) => {
       debugSetup('==> remove test activity in db');
@@ -61,7 +61,7 @@ describe(`Tests POST /activitys/ API`, function() {
       try {
         const path = globalVersion + "/activity/" ;
         const sentBody = {
-          name : 'M. Test Activity'
+          name : 'Cooking for test'
         };
         chai.request(testsUtils.getServer())
           .post(`${path}`)

@@ -12,6 +12,10 @@ const createActivity = async (request, response) => {
   await Controller.handleRequest(request, response, service.createActivity);
 };
 
+const getActivities = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getActivities);
+};
+
 const getActivity = async (request, response) => {
   await Controller.handleRequest(request, response, service.getActivity);
 };
@@ -19,5 +23,6 @@ const getActivity = async (request, response) => {
 
 module.exports = {
   createActivity,
+  getActivities,
   getActivity,
 };

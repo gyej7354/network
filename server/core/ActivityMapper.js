@@ -11,6 +11,15 @@ class ActivityMapper {
     return returnedResponseBody;
   }
 
+  static getResponseBodyForGetActivities(activities) {
+    const returnedResponseBody = [];
+    if ((activities !== undefined) && (Array.isArray(activities))) {
+      activities.forEach((activity) => {
+        returnedResponseBody.push(ActivityMapper.getResponseBodyForGetActivity(activity));
+      });
+    }
+    return returnedResponseBody;
+  }
 }
 
 module.exports = ActivityMapper;

@@ -45,7 +45,25 @@ const getUser = ({ userId }) => new Promise(
   },
 );
 
+/**
+ * Get user list
+ *
+ * returns List
+ * */
+const getUsers = () => new Promise(
+  async (resolve, reject) => {
+    try {
+      const getUsersResp = await LocalStorageProvider.getUsers();
+      const returnedResponse = UserMapper.getResponseBodyForGetUsers(getUsersResp);
+      resolve(Service.successResponse(returnedResponse, 200));
+    } catch (e) {
+      reject(Service.rejectResponse(e));
+    }
+  },
+);
+
 module.exports = {
   createUser,
   getUser,
+  getUsers
 };

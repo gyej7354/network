@@ -16,8 +16,13 @@ const getUser = async (request, response) => {
   await Controller.handleRequest(request, response, service.getUser);
 };
 
+const getUsers = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getUsers);
+};
+
 
 module.exports = {
   createUser,
   getUser,
+  getUsers,
 };

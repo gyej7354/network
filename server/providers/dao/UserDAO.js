@@ -62,6 +62,35 @@ class UserDAO {
     });
   }
 
+
+  static findAll(matchingConditions = {}) {
+    return new Promise((resolve, reject) => {
+      const condition = {};
+
+      // Verify parameters
+      if (matchingConditions.userId !== undefined) {
+        condition.id= matchingConditions.userId;
+      }
+      if (matchingConditions.name !== undefined) {
+        condition.name = matchingConditions.name;
+      }
+
+      // Launch database request
+      UserNeo4JRequester.findAll(condition, (err, user) => {
+        // Use errorManager to return appropriate dao errors
+        DAOErrorManager.handleErrorOrNullObject(err, user)
+          .then((objectReturned) => {
+            logger.debug('[UserDAO::findAll] [OK] objectReturned:' + typeof objectReturned + ' = ' + JSON.stringify(objectReturned));
+            return resolve(objectReturned);
+          })
+          .catch((errorReturned) => {
+            logger.error('[UserDAO::findAll] [FAILED] errorReturned:' + typeof errorReturned + ' = ' + JSON.stringify(errorReturned));
+            return reject(errorReturned);
+          });
+      });
+    });
+  }
+
 }
 
 module.exports = UserDAO;

@@ -60,6 +60,26 @@ paths:
           description: Internal Error
       tags:
         - User
+
+    get:
+      description: Get user list
+      operationId: getUsers
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsersResponse'
+          description: User list
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+        - User
+
   /activity/{activityId}:
     get:
       description: Get activity info
@@ -112,6 +132,24 @@ paths:
           description: Internal Error
       tags:
         - Activity
+    get:
+      description: Get activity list
+      operationId: getActivities
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetActivitiesResponse'
+          description: Activity list
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+        - Activity
 
 components:
   schemas:
@@ -138,6 +176,18 @@ components:
         name:
           type: string
 
+    GetUsersResponse:
+      type: array
+      additionalProperties: false
+      items:
+        $ref: '#/components/schemas/GetUserResponse'
+      example:
+        - name: Guillaume
+          userId: 467366a1-af34-468a-9363-480699272ee0
+        - name: Olivier
+          userId: 467366a1-af34-468a-9363-480699272ee1
+
+
     CreateActivityRequest:
       type: object
       additionalProperties: false
@@ -160,6 +210,18 @@ components:
           type: string
         name:
           type: string
+
+    GetActivitiesResponse:
+      type: array
+      additionalProperties: false
+      items:
+        $ref: '#/components/schemas/GetActivityResponse'
+      example:
+        - name: Cooking
+          activityId: 467366a1-af34-468a-9363-480699272ee0
+        - name: Tennis
+          activityId: 467366a1-af34-468a-9363-480699272ee1
+
 
     ErrorResponse:
       type: object

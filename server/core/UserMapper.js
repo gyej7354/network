@@ -11,6 +11,16 @@ class UserMapper {
     return returnedResponseBody;
   }
 
+  static getResponseBodyForGetUsers(users) {
+    const returnedResponseBody = [];
+    if ((users !== undefined) && (Array.isArray(users))) {
+      users.forEach((user) => {
+        returnedResponseBody.push(UserMapper.getResponseBodyForGetUser(user));
+      });
+    }
+    return returnedResponseBody;
+  }
+
 }
 
 module.exports = UserMapper;

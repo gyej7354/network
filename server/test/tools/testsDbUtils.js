@@ -19,6 +19,20 @@ class TestsDbUtils {
     });
   }
 
+  static deleteAllUsers() {
+    return new Promise((resolve, reject) => {
+      UserNeo4JRequester.deleteAllUsers( (err, users) => {
+        if (err) {
+          debug('delete all user failure : ', err);
+          resolve([]);
+        } else {
+          debug('delete all user done with success');
+          resolve(users);
+        }
+      });
+    });
+  }
+
   static createUser(user) {
     return new Promise((resolve, reject) => {
       user.id = UserNeo4JRequester.defineUserId();
@@ -45,6 +59,20 @@ class TestsDbUtils {
         } else {
           debug('delete activity done with success');
           resolve(activity);
+        }
+      });
+    });
+  }
+
+  static deleteAllActivities() {
+    return new Promise((resolve, reject) => {
+      ActivityNeo4JRequester.deleteAllActivities( (err, users) => {
+        if (err) {
+          debug('delete all activity failure : ', err);
+          resolve([]);
+        } else {
+          debug('delete all activity done with success');
+          resolve(users);
         }
       });
     });

@@ -78,6 +78,46 @@ class ActivityNeo4JRequester {
       });
   }
 
+  static findAll(conditions, next) {
+    const filter = `${(conditions.id)? "id : $id," : ""} ${(conditions.name)? "name : $name," : ""} `;
+
+    neo4JSessionInstance.run(`MATCH (activities:Activity {${filter}}) RETURN activities`, conditions)
+      .then(result => {
+        let getActivities = [];
+        result.records.forEach(singleRecord => {
+          const node = singleRecord.get(0)
+          const getActivity = {
+            id: node.properties.id,
+            name: node.properties.name
+          }
+          getActivities.push(getActivity)
+        })
+
+        next(null, getActivities)
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
+
+  static deleteAllActivities(next) {
+    neo4JSessionInstance.run('MATCH (activities:Activity {}) DELETE activities', {})
+      .then(result => {
+        let deletedActivities = [];
+        result.records.forEach(singleRecord => {
+          const node = singleRecord.get(0)
+          const deletedActivity = {
+            id: node.properties.id,
+            name: node.properties.name
+          }
+          deletedActivities.push(deletedActivity)
+        })
+        next(null, deletedActivities)
+      })
+      .catch(err => {
+        next(err);
+      })
+  }
 }
 
 module.exports = ActivityNeo4JRequester;

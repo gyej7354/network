@@ -37,6 +37,20 @@ class LocalStorageProvider {
 
   /**
    *
+   * @param {Object} matchingConditions
+   * @return {Promise<[string]>}
+   */
+  static async getUsers() {
+    try {
+      return await UserDAO.findAll();
+    } catch (error) {
+      logger.error('[LocalStorageProvider::getUsers] failed to get users - '+ JSON.stringify(error));
+      throw error;
+    }
+  }
+
+  /**
+   *
    * @param {String} activityId
    * @return {Promise<object>}
    */
@@ -61,6 +75,20 @@ class LocalStorageProvider {
       return createdActivity;
     } catch (error) {
       logger.error('[LocalStorageProvider::createActivity] failed to create activity - ' + JSON.stringify(error));
+      throw error;
+    }
+  }
+
+  /**
+   *
+   * @param {Object} matchingConditions
+   * @return {Promise<[string]>}
+   */
+  static async getActivities() {
+    try {
+      return await ActivityDAO.findAll();
+    } catch (error) {
+      logger.error('[LocalStorageProvider::getActivitiess] failed to get activities - '+ JSON.stringify(error));
       throw error;
     }
   }
