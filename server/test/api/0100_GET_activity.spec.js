@@ -9,43 +9,43 @@ const chai = require('chai');
 const expect = require('chai').expect;
 
 const globalVersion = '/api/v1';
-const route = '/users/{userId}';
+const route = '/activity/{activityId}';
 
 describe(`Tests GET ${route} API OK`, function() {
 
-    let userId = '';
+    let activityId = '';
 
     before((done) => {
-      debugSetup('==> remove test user in db');
-      testsDbUtils.deleteUser({name : 'M. Test User'})
-        .then((deleteUserResp) => {
-          debugSetup('UserDeleted : ', deleteUserResp);
+      debugSetup('==> remove test activity in db');
+      testsDbUtils.deleteActivity({name : 'Cooking for test'})
+        .then((deleteActivityResp) => {
+          debugSetup('ActivityDeleted : ', deleteActivityResp);
           debugSetup('==> done!');
 
-          testsDbUtils.createUser({name : 'M. Test User'})
-            .then((createdUserResp) => {
-              debugSetup('UserCreated : ', createdUserResp);
+          testsDbUtils.createActivity({name : 'Cooking for test'})
+            .then((createdActivityResp) => {
+              debugSetup('ActivityCreated : ', createdActivityResp);
               debugSetup('==> done!');
-              userId = createdUserResp.id;
+              activityId = createdActivityResp.id;
 
               done();
             })
-            .catch((deleteUserError) => {
-              debugSetup('Error creating user in db : ', deleteUserError);
+            .catch((deleteActivityError) => {
+              debugSetup('Error creating activity in db : ', deleteActivityError);
               debugSetup('==> failed!');
-              done(deleteUserError);
+              done(deleteActivityError);
             });
         })
-        .catch((deleteUserError) => {
-          debugSetup('Error removing user in db : ', deleteUserError);
+        .catch((deleteActivityError) => {
+          debugSetup('Error removing activity in db : ', deleteActivityError);
           debugSetup('==> failed!');
-          done(deleteUserError);
+          done(deleteActivityError);
         });
     });
 
-    it(`Get user OK`, function(done) {
+    it(`Get activity OK`, function(done) {
       try {
-        const path = globalVersion + '/users/' + userId ;
+        const path = globalVersion + '/activity/' + activityId ;
         chai.request(testsUtils.getServer())
           .get(`${path}`)
           .end((error, response) => {
@@ -54,7 +54,7 @@ describe(`Tests GET ${route} API OK`, function() {
             expect(response).to.have.status(200);
             expect(response).to.be.json;
             expect(response.body).to.exist;
-            expect(response.body.userId).to.equal(userId);
+            expect(response.body.activityId).to.equal(activityId);
             done();
           });
       } catch (exception) {
@@ -64,9 +64,9 @@ describe(`Tests GET ${route} API OK`, function() {
       }
     });
 
-    it(`Get unknown user OK returns 404`, function(done) {
+    it(`Get unknown activity OK returns 404`, function(done) {
       try {
-        const path = globalVersion + '/users/' + 'unkownUserId' ;
+        const path = globalVersion + '/activity/' + 'unkownActivityId' ;
         chai.request(testsUtils.getServer())
           .get(`${path}`)
           .end((error, response) => {

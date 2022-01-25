@@ -10,28 +10,28 @@ const expect = require('chai').expect;
 
 const globalVersion = '/api/v1';
 
-describe(`Tests POST /users/ API`, function() {
+describe(`Tests POST /activitys/ API`, function() {
 
     before((done) => {
-      debugSetup('==> remove test user in db');
-      testsDbUtils.deleteUser({name : 'M. Test User'})
-        .then((deleteUserResp) => {
-          debugSetup('UserDeleted : ', deleteUserResp);
+      debugSetup('==> remove test activity in db');
+      testsDbUtils.deleteActivity({name : 'Cooking for test'})
+        .then((deleteActivityResp) => {
+          debugSetup('ActivityDeleted : ', deleteActivityResp);
           debugSetup('==> done!');
           done();
         })
-        .catch((deleteUserError) => {
-          debugSetup('Error removing user in db : ', deleteUserError);
+        .catch((deleteActivityError) => {
+          debugSetup('Error removing activity in db : ', deleteActivityError);
           debugSetup('==> failed!');
-          done(deleteUserError);
+          done(deleteActivityError);
         });
     });
 
-    it('Post user OK', function(done) {
+    it('Post activity OK', function(done) {
       try {
-        const path = globalVersion + "/users/" ;
+        const path = globalVersion + "/activity/" ;
         const sentBody = {
-          name : 'M. Test User'
+          name : 'Cooking for test'
         };
         chai.request(testsUtils.getServer())
           .post(`${path}`)
@@ -43,10 +43,10 @@ describe(`Tests POST /users/ API`, function() {
             expect(response).to.be.json;
             expect(response.body).to.exist;
             expect(response.body).to.be.an('object');
-            expect(Object.keys(response.body)).have.members(['name', 'userId']);
+            expect(Object.keys(response.body)).have.members(['name', 'activityId']);
             expect(response.body).to.have.property('name', sentBody.name);
-            expect(response.body).to.have.property('userId')
-            expect(response.body.userId).to.be.an('string')
+            expect(response.body).to.have.property('activityId')
+            expect(response.body.activityId).to.be.an('string')
 
             done();
           });
@@ -57,11 +57,11 @@ describe(`Tests POST /users/ API`, function() {
       }
     });
 
-    it('Post existing user should return 422', function(done) {
+    it('Post existing activity should return 422', function(done) {
       try {
-        const path = globalVersion + "/users/" ;
+        const path = globalVersion + "/activity/" ;
         const sentBody = {
-          name : 'M. Test User'
+          name : 'M. Test Activity'
         };
         chai.request(testsUtils.getServer())
           .post(`${path}`)

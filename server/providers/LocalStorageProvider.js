@@ -1,6 +1,7 @@
 const logger = require('../logger');
 
 const UserDAO = require('./dao/UserDAO');
+const ActivityDAO = require('./dao/ActivityDAO');
 
 class LocalStorageProvider {
 
@@ -34,6 +35,35 @@ class LocalStorageProvider {
     }
   }
 
+  /**
+   *
+   * @param {String} activityId
+   * @return {Promise<object>}
+   */
+  static async getActivity(activityId) {
+    try {
+      const getActivity = await ActivityDAO.findOne(activityId);
+      return getActivity;
+    } catch (error) {
+      logger.error('[LocalStorageProvider::getActivity] failed to get activity - ' + JSON.stringify(error));
+      throw error;
+    }
+  }
+
+  /**
+   *
+   * @param {Object} project
+   * @return {Promise<object>}
+   */
+  static async createActivity(activity) {
+    try {
+      const createdActivity = await ActivityDAO.create(activity);
+      return createdActivity;
+    } catch (error) {
+      logger.error('[LocalStorageProvider::createActivity] failed to create activity - ' + JSON.stringify(error));
+      throw error;
+    }
+  }
 }
 
 module.exports = LocalStorageProvider;
