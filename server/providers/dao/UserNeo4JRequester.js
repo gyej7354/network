@@ -9,22 +9,36 @@ class UserNeo4JRequester {
   }
 
   static create(object, next) {
-    neo4JSessionInstance.run('CREATE (user:User {id: $id, name: $name}) RETURN user',
+    neo4JSessionInstance.run('MATCH (user:User {name: $name}) RETURN user',
       {
-        id: object.id,
         name: object.name,
       })
-      .then(result => {
-        const singleRecord = result.records[0]
-        const node = singleRecord.get(0)
-        const createdUser = {
-          id : node.properties.id,
-          name : node.properties.name
+      .then(results => {
+        if (results.records.length != 0) {
+          return next({code: 422, name: 'AlreadyExist'}, null);
+        } else {
+          neo4JSessionInstance.run('CREATE (user:User {id: $id, name: $name}) RETURN user',
+            {
+              id: object.id,
+              name: object.name,
+            })
+            .then(result => {
+              const singleRecord = result.records[0]
+              const node = singleRecord.get(0)
+              const createdUser = {
+                id: node.properties.id,
+                name: node.properties.name
+              }
+              next(null, createdUser)
+            })
+            .catch(err => {
+              next(err);
+            })
         }
-        next(null, createdUser)
       })
       .catch(err => {
-        next(err);})
+        next(err);
+      })
   }
 
   static deleteUser(object, next) {
@@ -37,24 +51,31 @@ class UserNeo4JRequester {
         next(null, object)
       })
       .catch(err => {
-        next(err);})
+        next(err);
+      })
   }
 
   static findOne(user, next) {
-    neo4JSessionInstance.run('MATCH (user:User {id: $id}) RETURN user',{
+    neo4JSessionInstance.run('MATCH (user:User {id: $id}) RETURN user', {
       id: user.id
     })
       .then(result => {
-        const singleRecord = result.records[0]
-        const node = singleRecord.get(0)
-        const getUser = {
-          id : node.properties.id,
-          name : node.properties.name
+        if (result.records.length == 0) {
+          return next({code: 404, name: 'NotFound'}, null);
+        } else {
+
+          const singleRecord = result.records[0]
+          const node = singleRecord.get(0)
+          const getUser = {
+            id: node.properties.id,
+            name: node.properties.name
+          }
+          next(null, getUser)
         }
-        next(null, getUser)
       })
       .catch(err => {
-        next(err);});
+        next(err);
+      });
   }
 
 }

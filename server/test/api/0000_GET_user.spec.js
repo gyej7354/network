@@ -27,7 +27,6 @@ describe(`Tests GET ${route} API OK`, function() {
             .then((createdUserResp) => {
               debugSetup('UserCreated : ', deleteUserResp);
               debugSetup('==> done!');
-              console.log(createdUserResp.id)
               userId = createdUserResp.id;
 
               done();
@@ -57,6 +56,32 @@ describe(`Tests GET ${route} API OK`, function() {
             expect(response).to.be.json;
             expect(response.body).to.exist;
             expect(response.body.userId).to.equal(userId);
+            done();
+          });
+      } catch (exception) {
+        debug('exception: %s', exception.stack);
+        expect.fail('it test throws an exception');
+        done();
+      }
+    });
+
+    it(`Get unknown user OK returns 404`, function(done) {
+      try {
+        const path = globalVersion + '/users/' + 'unkownUserId' ;
+        chai.request(testsUtils.getServer())
+          .get(`${path}`)
+          .end((error, response) => {
+            debug('response.body: %s', JSON.stringify(response.body));
+
+            expect(error).to.be.null;
+            expect(response).to.have.status(404);
+            expect(response).to.be.json;
+            expect(response.body).to.exist;
+            expect(response.body).to.be.an('object');
+            expect(response.body).to.have.property('internalErrorCode', 404);
+            expect(response.body).to.have.property('message', 'Resource not found');
+            expect(response.body).to.have.property('description', 'The requested URI or the requested resource does not exist.');
+
             done();
           });
       } catch (exception) {

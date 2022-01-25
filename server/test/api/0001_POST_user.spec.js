@@ -57,6 +57,35 @@ describe(`Tests POST /users/ API`, function() {
         done();
       }
     });
+
+    it('Post existing user should return 422', function(done) {
+      try {
+        const path = globalVersion + "/users/" ;
+        const sentBody = {
+          name : 'M. Test User'
+        };
+        chai.request(testsUtils.getServer())
+          .post(`${path}`)
+          .send(sentBody)
+          .end((error, response) => {
+            debug('response.body: %s', JSON.stringify(response.body));
+            expect(error).to.be.null;
+            expect(response).to.have.status(422);
+            expect(response).to.be.json;
+            expect(response.body).to.exist;
+            expect(response.body).to.be.an('object');
+            expect(response.body).to.have.property('internalErrorCode', 422);
+            expect(response.body).to.have.property('message', 'Conflict');
+            expect(response.body).to.have.property('description', 'This object already exists.');
+
+            done();
+          });
+      } catch (exception) {
+        debug('exception: %s', exception.stack);
+        expect.fail('it test throws an exception');
+        done();
+      }
+    });
   });
 
 });

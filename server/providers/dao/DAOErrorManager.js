@@ -25,8 +25,13 @@ class DAOErrorManager {
   static handleError(err, object) {
     return new Promise((resolve, reject) => {
       if (err) {
-        logger.error('[DAO] [handleError] err:' + typeof err + ' = ' + JSON.stringify(err));
-        reject(errorUtils.ERROR_DAO_REQUEST_FAILED);
+        if (err.name === 'AlreadyExist' && err.code === 422) {
+          reject(errorUtils.ERROR_DAO_CONFLICT);
+        } else if  (err.name === 'NotFound' && err.code === 404) {
+          reject(errorUtils.ERROR_DAO_NOT_FOUND);
+        } else {
+          reject(errorUtils.ERROR_DAO_REQUEST_FAILED);
+        }
       } else {
         resolve(object);
       }

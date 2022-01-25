@@ -14,7 +14,7 @@ class LocalStorageProvider {
       const getUser = await UserDAO.findOne(userId);
       return getUser;
     } catch (error) {
-      logger.error('[LocalStorageProvider::getUser] failed to get user - %s', error.message);
+      logger.error('[LocalStorageProvider::getUser] failed to get user - ' + JSON.stringify(error));
       throw error;
     }
   }
@@ -29,7 +29,7 @@ class LocalStorageProvider {
       const createdUser = await UserDAO.create(user);
       return createdUser;
     } catch (error) {
-      logger.error('[LocalStorageProvider::createUser] failed to create user - %s', error.message);
+      logger.error('[LocalStorageProvider::createUser] failed to create user - ' + JSON.stringify(error));
       throw error;
     }
   }

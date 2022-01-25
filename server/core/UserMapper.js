@@ -3,9 +3,7 @@
 class UserMapper {
 
   static getResponseBodyForGetUser(user) {
-    let returnedResponseBody = {};
-
-    returnedResponseBody = {
+    let returnedResponseBody =  {
       userId: user.id,
       name: user.name,
     };

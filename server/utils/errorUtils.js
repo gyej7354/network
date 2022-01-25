@@ -21,9 +21,18 @@ class ErrorUtils {
   static ERROR_DAO_NOT_FOUND = {
     code: 404,
     error: {
-      internalErrorCode: 60,
+      internalErrorCode: 404,
       message: 'Resource not found',
       description: 'The requested URI or the requested resource does not exist.'
+    }
+  };
+
+  static ERROR_DAO_CONFLICT = {
+    code: 422,
+    error: {
+      internalErrorCode: 422,
+      message: 'Conflict',
+      description: 'This object already exists.'
     }
   };
 
