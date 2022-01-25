@@ -17,6 +17,9 @@ config.NEO4J_USERNAME = 'neo4j'
 config.NEO4J_PASSWORD = 'mikado'
 config.NEO4J_DB_URL = 'bolt://localhost:7687'
 
+// Logger configuration
+config.LOG_LEVEL=process.env.NETWORK_LOG_LEVEL || 'http';
+config.LOG_APP_NAME=process.env.NETWORK_LOG_APP_NAME || 'Social-Network';
 
 
 module.exports = config;
