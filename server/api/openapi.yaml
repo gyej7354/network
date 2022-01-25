@@ -24,7 +24,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetUserResponse'
-          description: User's project list
+          description: Get user infos
         "500":
           content:
             application/json:
@@ -61,21 +61,68 @@ paths:
       tags:
       - User
       x-eov-operation-handler: controllers/UserController
+  /activity/{activityId}:
+    get:
+      description: Get activity info
+      operationId: getActivity
+      parameters:
+      - description: Id of the activity
+        explode: false
+        in: path
+        name: activityId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetActivityResponse'
+          description: Get activity info
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+      - Activity
+      x-eov-operation-handler: controllers/ActivityController
+  /activity/:
+    post:
+      description: Create a new activity
+      operationId: createActivity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateActivityRequest'
+        description: Create activity
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetActivityResponse'
+          description: User info
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+      - Activity
+      x-eov-operation-handler: controllers/ActivityController
 components:
   schemas:
-    Date:
-      example: 2021-07-28T14:37:09.234Z
-      title: Date in JSON format
-      type: string
-    NullableEmptyObject:
-      additionalProperties: false
-      nullable: true
-      title: Nullable empty object
-      type: object
     CreateUserRequest:
       additionalProperties: false
       example:
-        name: John
+        name: Olivier
       properties:
         name:
           type: string
@@ -95,6 +142,30 @@ components:
       required:
       - name
       - userId
+      type: object
+    CreateActivityRequest:
+      additionalProperties: false
+      example:
+        name: Cooking
+      properties:
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    GetActivityResponse:
+      additionalProperties: false
+      example:
+        activityId: activityId
+        name: name
+      properties:
+        activityId:
+          type: string
+        name:
+          type: string
+      required:
+      - activityId
+      - name
       type: object
     ErrorResponse:
       additionalProperties: true

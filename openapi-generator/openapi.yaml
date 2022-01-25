@@ -25,7 +25,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetUserResponse'
-          description: User's project list
+          description: Get user infos
         "500":
           content:
             application/json:
@@ -60,6 +60,58 @@ paths:
           description: Internal Error
       tags:
         - User
+  /activity/{activityId}:
+    get:
+      description: Get activity info
+      operationId: getActivity
+      parameters:
+        - name: activityId
+          description: Id of the activity
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetActivityResponse'
+          description: Get activity info
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+        - Activity
+  /activity/:
+    post:
+      description: Create a new activity
+      operationId: createActivity
+      requestBody:
+        description: Create activity
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateActivityRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetActivityResponse'
+          description: User info
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+        - Activity
 
 components:
   schemas:
@@ -82,6 +134,29 @@ components:
         - name
       properties:
         userId:
+          type: string
+        name:
+          type: string
+
+    CreateActivityRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      example:
+        name: Cooking
+
+    GetActivityResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - activityId
+        - name
+      properties:
+        activityId:
           type: string
         name:
           type: string
