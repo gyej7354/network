@@ -41,14 +41,12 @@ class UserNeo4JRequester {
       })
   }
 
-  static deleteUser(object, next) {
-    neo4JSessionInstance.run('MATCH (user:User {name: $name}) DELETE user',
-      {
-        name: object.name,
-      })
-      .then(result => {
+  static deleteUser(conditions, next) {
+    const filter = `${(conditions.id)? "id:$id," : ""} ${(conditions.name)? "name:$name" : ""} `;
 
-        next(null, object)
+    neo4JSessionInstance.run(`MATCH (users:User {${filter}} ) DELETE users`, conditions)
+      .then(result => {
+          next(null, conditions)
       })
       .catch(err => {
         next(err);
@@ -83,7 +81,6 @@ class UserNeo4JRequester {
 
     neo4JSessionInstance.run(`MATCH (users:User {${filter}} ) RETURN users`, conditions)
       .then(result => {
-        console.log('0')
         let getUsers = [];
         result.records.forEach(singleRecord => {
           const node = singleRecord.get(0)

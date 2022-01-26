@@ -38,6 +38,43 @@ class ActivityDAO {
     });
   }
 
+  static delete(activity) {
+    return new Promise((resolve, reject) => {
+      // Verify parameters
+      if (activity === undefined) {
+        logger.error('[ActivityDAO::delete] [FAILED] : activity undefined');
+        reject(MISSING_MANDATORY_PARAM_ERROR);
+      }
+      if ((activity.name === undefined) && (activity.id === undefined)) {
+        logger.error('[ActivityDAO::delete] [FAILED] : activity undefined');
+        reject(MISSING_MANDATORY_PARAM_ERROR);
+      }
+      const conditions = {};
+
+      if (activity.id !== undefined) {
+        conditions.id= activity.id;
+      }
+      if (activity.name !== undefined) {
+        conditions.name = activity.name;
+      }
+
+
+      // Launch database request
+      ActivityNeo4JRequester.deleteActivity(conditions, (err, response) => {
+        DAOErrorManager.handleErrorOrNullObject(err, response)
+          .then((objectReturned) => {
+            // If no error, returns the deleted activity
+            resolve(activity);
+          })
+          .catch((errorReturned) => {
+            logger.error('[ActivityDAO::delete] [FAILED] errorReturned:' + typeof errorReturned + ' = ' + JSON.stringify(errorReturned));
+            reject(errorReturned);
+          });
+      });
+    });
+  }
+
+
   static findOne(id, matchingConditions = {}) {
     return new Promise((resolve, reject) => {
       // Verify parameters
@@ -75,9 +112,9 @@ class ActivityDAO {
       }
 
       // Launch database request
-      ActivityNeo4JRequester.findAll(condition, (err, user) => {
+      ActivityNeo4JRequester.findAll(condition, (err, activity) => {
         // Use errorManager to return appropriate dao errors
-        DAOErrorManager.handleErrorOrNullObject(err, user)
+        DAOErrorManager.handleErrorOrNullObject(err, activity)
           .then((objectReturned) => {
             logger.debug('[ActivityDAO::findAll] [OK] objectReturned:' + typeof objectReturned + ' = ' + JSON.stringify(objectReturned));
             return resolve(objectReturned);

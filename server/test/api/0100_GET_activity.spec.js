@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-vars */
 const testsUtils = require('../tools/testsUtils');
-const testsDbUtils = require('../tools/testsDbUtils');
+const TestsDbUtils = require('../tools/testsDbUtils');
 const debug = require('debug')('spec:it');
-const debugSetup = require('debug')('spec:setup');
-/* eslint-enable no-unused-vars */
 
 const chai = require('chai');
 const expect = require('chai').expect;
@@ -13,38 +10,15 @@ const route = '/activity/{activityId}';
 
 describe(`Tests GET ${route} API OK`, function() {
 
-    let activityId = '';
+  before(TestsDbUtils.beforeTestCommonSetUp);
 
-    before((done) => {
-      debugSetup('==> remove test activity in db');
-      testsDbUtils.deleteActivity({name : 'Cooking for test'})
-        .then((deleteActivityResp) => {
-          debugSetup('ActivityDeleted : ', deleteActivityResp);
-          debugSetup('==> done!');
+  after(TestsDbUtils.afterTestCommonClean);
 
-          testsDbUtils.createActivity({name : 'Cooking for test'})
-            .then((createdActivityResp) => {
-              debugSetup('ActivityCreated : ', createdActivityResp);
-              debugSetup('==> done!');
-              activityId = createdActivityResp.id;
-
-              done();
-            })
-            .catch((deleteActivityError) => {
-              debugSetup('Error creating activity in db : ', deleteActivityError);
-              debugSetup('==> failed!');
-              done(deleteActivityError);
-            });
-        })
-        .catch((deleteActivityError) => {
-          debugSetup('Error removing activity in db : ', deleteActivityError);
-          debugSetup('==> failed!');
-          done(deleteActivityError);
-        });
-    });
-
-    it(`Get activity OK`, function(done) {
+  it(`Get activity OK`, function(done) {
       try {
+        let activityId = TestsDbUtils.createTestUsersAndActivitiesResp.activities[0].id;
+        let expectedActivityName = TestsDbUtils.createTestUsersAndActivitiesResp.activities[0].name;
+
         const path = globalVersion + '/activity/' + activityId ;
         chai.request(testsUtils.getServer())
           .get(`${path}`)
@@ -55,6 +29,8 @@ describe(`Tests GET ${route} API OK`, function() {
             expect(response).to.be.json;
             expect(response.body).to.exist;
             expect(response.body.activityId).to.equal(activityId);
+            expect(response.body.name).to.equal(expectedActivityName);
+
             done();
           });
       } catch (exception) {

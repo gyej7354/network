@@ -151,6 +151,33 @@ paths:
       tags:
         - Activity
 
+  /relationship/:
+    post:
+      description: Create a new relationship
+      operationId: createRelationship
+      requestBody:
+        description: Create relationship input
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRelationshipRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRelationshipResponse'
+          description: User info
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+        - Relationship
+
 components:
   schemas:
     CreateUserRequest:
@@ -221,6 +248,43 @@ components:
           activityId: 467366a1-af34-468a-9363-480699272ee0
         - name: Tennis
           activityId: 467366a1-af34-468a-9363-480699272ee1
+
+    CreateRelationshipRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - userId
+        - activityId
+      properties:
+        type:
+          $ref: '#/components/schemas/RelationshipType'
+        userId:
+          type: string
+        activityId:
+          type: string
+      example:
+        type: LIKES
+        userId: 60ecefee-a015-4875-b2f5-ae0641c17465
+        activityId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffa0
+
+    GetRelationshipResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - relationshipId
+        - type
+      properties:
+        relationshipId:
+          type: string
+        type:
+          $ref: '#/components/schemas/RelationshipType'
+
+    RelationshipType:
+      type: string
+      enum:
+        - LIKES
+        - HATES
 
 
     ErrorResponse:

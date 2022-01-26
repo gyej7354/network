@@ -41,14 +41,12 @@ class ActivityNeo4JRequester {
       })
   }
 
-  static deleteActivity(object, next) {
-    neo4JSessionInstance.run('MATCH (activity:Activity {name: $name}) DELETE activity',
-      {
-        name: object.name,
-      })
-      .then(result => {
+  static deleteActivity(conditions, next) {
+    const filter = `${(conditions.id)? "id:$id," : ""} ${(conditions.name)? "name:$name" : ""} `;
 
-        next(null, object)
+    neo4JSessionInstance.run(`MATCH (activity:Activity {${filter}} ) DELETE activity`,conditions)
+      .then(result => {
+        next(null, conditions)
       })
       .catch(err => {
         next(err);

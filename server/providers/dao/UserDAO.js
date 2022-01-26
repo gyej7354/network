@@ -38,6 +38,42 @@ class UserDAO {
     });
   }
 
+  static delete(user) {
+    return new Promise((resolve, reject) => {
+      // Verify parameters
+      if (user === undefined) {
+        logger.error('[UserDAO::delete] [FAILED] : user undefined');
+        reject(MISSING_MANDATORY_PARAM_ERROR);
+      }
+      if ((user.name === undefined) && (user.id === undefined)) {
+        logger.error('[UserDAO::delete] [FAILED] : user undefined');
+        reject(MISSING_MANDATORY_PARAM_ERROR);
+      }
+      const conditions = {};
+
+      if (user.id !== undefined) {
+        conditions.id= user.id;
+      }
+      if (user.name !== undefined) {
+        conditions.name = user.name;
+      }
+
+
+      // Launch database request
+      UserNeo4JRequester.deleteUser(conditions, (err, response) => {
+        DAOErrorManager.handleErrorOrNullObject(err, response)
+          .then((objectReturned) => {
+            // If no error, returns the deleted user
+            resolve(user);
+          })
+          .catch((errorReturned) => {
+            logger.error('[UserDAO::delete] [FAILED] errorReturned:' + typeof errorReturned + ' = ' + JSON.stringify(errorReturned));
+            reject(errorReturned);
+          });
+      });
+    });
+  }
+
   static findOne(id, matchingConditions = {}) {
     return new Promise((resolve, reject) => {
       // Verify parameters
@@ -68,8 +104,8 @@ class UserDAO {
       const condition = {};
 
       // Verify parameters
-      if (matchingConditions.userId !== undefined) {
-        condition.id= matchingConditions.userId;
+      if (matchingConditions.id !== undefined) {
+        condition.id= matchingConditions.id;
       }
       if (matchingConditions.name !== undefined) {
         condition.name = matchingConditions.name;
