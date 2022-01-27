@@ -18,13 +18,13 @@ WHERE user.id='${object.userId}' AND activity.id='${object.activityId}'
 CREATE (user)-[relationship:${object.type} {id: '${object.id}'}]->(activity)
 RETURN type(relationship), relationship.id`;
 
-    neo4JSessionInstance.run(matchRequest, {     })
+    neo4JSessionInstance.run(matchRequest, {})
       .then(results => {
         if (results.records.length != 0) {
           return next({code: 422, name: 'AlreadyExist'}, null);
         } else {
 
-          neo4JSessionInstance.run(request,object)
+          neo4JSessionInstance.run(request, object)
             .then(results => {
 
               const singleRecord = results.records[0]
@@ -49,12 +49,9 @@ RETURN type(relationship), relationship.id`;
   }
 
 
-
-
-
   static deleteRelationship(conditions, next) {
-    const filter = `${(conditions.id)? "id:$id" : ""}`;
-    neo4JSessionInstance.run(`MATCH (n)-[r:LIKES {${filter}} ]->() DELETE r`, conditions)
+    const filter = `${(conditions.id) ? "id:$id" : ""}`;
+    neo4JSessionInstance.run(`MATCH (n)-[r:${conditions.type} {${filter}} ]->() DELETE r`, conditions)
       .then(result => {
         next(null, conditions)
       })
