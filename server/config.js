@@ -21,5 +21,7 @@ config.NEO4J_DB_URL = 'bolt://localhost:7687'
 config.LOG_LEVEL=process.env.NETWORK_LOG_LEVEL || 'http';
 config.LOG_APP_NAME=process.env.NETWORK_LOG_APP_NAME || 'Social-Network';
 
+config.RELATIONSHIP_LIKES='LIKES';
+config.RELATIONSHIP_HATES='HATES';
 
 module.exports = config;

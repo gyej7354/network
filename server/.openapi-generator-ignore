@@ -1,6 +1,7 @@
 services/UserService.js
 services/Service.js
 services/ActivityService.js
+services/RelationshipService.js
 
 expressServer.js
 index.js

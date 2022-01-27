@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 const Service = require('./Service');
+const LocalStorageProvider = require('../providers/LocalStorageProvider');
+const RelationshipMapper = require('../core/RelationshipMapper');
 
 /**
 * Create a new relationship
@@ -10,14 +12,17 @@ const Service = require('./Service');
 const createRelationship = ({ createRelationshipRequest }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse({
-        createRelationshipRequest,
-      }));
+      const relationshipToCreate = {
+        ...createRelationshipRequest
+      }
+      const createRelationshipResp = await LocalStorageProvider.createRelationship(relationshipToCreate);
+      const returnedResponse = RelationshipMapper.getResponseBodyForGetRelationship(createRelationshipResp);
+
+      resolve(Service.successResponse(returnedResponse, 201));
+
     } catch (e) {
-      reject(Service.rejectResponse(
-        e.message || 'Invalid input',
-        e.status || 405,
-      ));
+      reject(Service.rejectResponse(e));
+
     }
   },
 );

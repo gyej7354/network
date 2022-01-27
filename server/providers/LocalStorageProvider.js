@@ -2,6 +2,7 @@ const logger = require('../logger');
 
 const UserDAO = require('./dao/UserDAO');
 const ActivityDAO = require('./dao/ActivityDAO');
+const RelationshipDAO = require('./dao/RelationshipDAO');
 
 class LocalStorageProvider {
 
@@ -22,7 +23,7 @@ class LocalStorageProvider {
 
   /**
    *
-   * @param {Object} project
+   * @param {Object} user
    * @return {Promise<object>}
    */
   static async createUser(user) {
@@ -66,7 +67,7 @@ class LocalStorageProvider {
 
   /**
    *
-   * @param {Object} project
+   * @param {Object} activity
    * @return {Promise<object>}
    */
   static async createActivity(activity) {
@@ -92,6 +93,24 @@ class LocalStorageProvider {
       throw error;
     }
   }
+
+  /**
+   *
+   * @param {Object} relationship
+   * @return {Promise<object>}
+   */
+  static async createRelationship(relationship) {
+    try {
+
+      const createdRelationship = await RelationshipDAO.create(relationship);
+
+      return createdRelationship;
+    } catch (error) {
+      logger.error('[LocalStorageProvider::createRelationship] failed to create relationship - ' + JSON.stringify(error));
+      throw error;
+    }
+  }
+
 }
 
 module.exports = LocalStorageProvider;

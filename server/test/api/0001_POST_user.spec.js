@@ -20,13 +20,14 @@ describe(`Tests POST ${route} API`, function() {
     try {
       const path = globalVersion + "/users/";
       const sentBody = {
-        name: TestsDbUtils.postedTestUsers[0].name
+        name: TestsDbUtils.usableTestUsers[0].name
       };
       chai.request(testsUtils.getServer())
         .post(`${path}`)
         .send(sentBody)
         .end((error, response) => {
           debug('response.body: %s', JSON.stringify(response.body));
+          TestsDbUtils.pushPostedTestUserToDelete(response.body)
           expect(error).to.be.null;
           expect(response).to.have.status(201);
           expect(response).to.be.json;
@@ -36,7 +37,7 @@ describe(`Tests POST ${route} API`, function() {
           expect(response.body).to.have.property('name', sentBody.name);
           expect(response.body).to.have.property('userId')
           expect(response.body.userId).to.be.an('string')
-          expect(response.body.name).to.equal(TestsDbUtils.postedTestUsers[0].name)
+          expect(response.body.name).to.equal(TestsDbUtils.usableTestUsers[0].name)
 
           done();
         });
