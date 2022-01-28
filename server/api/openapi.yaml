@@ -34,6 +34,35 @@ paths:
       tags:
       - User
       x-eov-operation-handler: controllers/UserController
+  /users/{userId}/activities:
+    get:
+      description: Get user activities
+      operationId: getUserActivities
+      parameters:
+      - description: Id of the user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserActivitiesResponse'
+          description: Get user infos
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+      - User
+      x-eov-operation-handler: controllers/UserController
   /users/:
     get:
       description: Get user list
@@ -184,6 +213,51 @@ paths:
       x-eov-operation-handler: controllers/RelationshipController
 components:
   schemas:
+    ErrorResponse:
+      additionalProperties: true
+      type: object
+    GetUserActivityResponse:
+      additionalProperties: false
+      example:
+        activity:
+          activityId: 467366a1-af34-468a-9363-480699272ee0
+          name: Tennis
+        relationship:
+          relationshipId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffa0
+          type: LIKES
+          userId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffaf
+          activityId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffae
+      properties:
+        activity:
+          $ref: '#/components/schemas/GetActivityResponse'
+        relationship:
+          $ref: '#/components/schemas/GetRelationshipResponse'
+      required:
+      - activity
+      - relationship
+      type: object
+    GetUserActivitiesResponse:
+      additionalProperties: false
+      example:
+      - activity:
+          activityId: 467366a1-af34-468a-9363-480699272ee0
+          name: Tennis
+        relationship:
+          relationshipId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffa0
+          type: LIKES
+          userId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffaf
+          activityId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffae
+      - activity:
+          activityId: 467366a1-af34-468a-9363-480699272ee1
+          name: Cooking
+        relationship:
+          relationshipId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffb0
+          type: LIKES
+          userId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffaf
+          activityId: 467366a1-af34-468a-9363-480699272ee1
+      items:
+        $ref: '#/components/schemas/GetUserActivityResponse'
+      type: array
     CreateUserRequest:
       additionalProperties: false
       example:
@@ -231,8 +305,8 @@ components:
     GetActivityResponse:
       additionalProperties: false
       example:
-        activityId: activityId
-        name: name
+        activityId: 467366a1-af34-468a-9363-480699272ee0
+        name: Tennis
       properties:
         activityId:
           type: string
@@ -273,21 +347,27 @@ components:
     GetRelationshipResponse:
       additionalProperties: false
       example:
-        relationshipId: relationshipId
+        relationshipId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffa0
+        type: LIKES
+        userId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffaf
+        activityId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffae
       properties:
         relationshipId:
           type: string
         type:
           $ref: '#/components/schemas/RelationshipType'
+        userId:
+          type: string
+        activityId:
+          type: string
       required:
+      - activityId
       - relationshipId
       - type
+      - userId
       type: object
     RelationshipType:
       enum:
       - LIKES
       - HATES
       type: string
-    ErrorResponse:
-      additionalProperties: true
-      type: object

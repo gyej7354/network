@@ -9,9 +9,16 @@ const config = require('../../config');
 
 const testUsers = [{name: 'User 1'}, {name: 'User 2'}, {name: 'User 3'}];
 const testActivities = [{name: 'Activity 1'}, {name: 'Activity 2'}, {name: 'Activity 3'}];
-const testRelationshipsWithNames = [{type : config.RELATIONSHIP_LIKES,
-  activityName: 'Activity 3',
-  userName:'User 2'}];
+const testRelationshipsWithNames = [
+  {
+    type: config.RELATIONSHIP_LIKES,
+    activityName: 'Activity 3',
+    userName: 'User 2'
+  }, {
+    type: config.RELATIONSHIP_LIKES,
+    activityName: 'Activity 2',
+    userName: 'User 2'
+  }];
 
 const usableTestUsers = [{name: 'Posted Test User 1'}];
 const usableTestActivities = [{name: 'Posted Test Activity 1'}];

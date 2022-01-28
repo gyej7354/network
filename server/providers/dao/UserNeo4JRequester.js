@@ -118,6 +118,35 @@ class UserNeo4JRequester {
         next(err);
       })
   }
+
+  static getActivities(id, next) {
+    const request = `MATCH (u:User {id:'${id}'})-[r]->(a:Activity) RETURN r, a`;
+
+    neo4JSessionInstance.run(request)
+      .then(result => {
+        let getActivitiesResponse = [];
+        result.records.forEach(singleRecord => {
+          let relationship = singleRecord.get(0);
+          let node = singleRecord.get(1);
+
+          getActivitiesResponse.push({
+            activity: {
+              id: node.properties.id,
+              name: node.properties.name
+            },
+            relationship: {
+              id: relationship.properties.id,
+              type: relationship.type,
+            }
+          })
+        })
+
+          next(null, getActivitiesResponse)
+      })
+      .catch(err => {
+        next(err);
+      })
+  }
 }
 
 module.exports = UserNeo4JRequester;

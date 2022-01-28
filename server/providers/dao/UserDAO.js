@@ -127,6 +127,33 @@ class UserDAO {
     });
   }
 
+  static getActivities(id) {
+    return new Promise((resolve, reject) => {
+      const condition = {};
+
+      if (id === undefined) {
+        logger.error('[UserDAO::getUserActivities] [FAILED] : user id undefined');
+        reject(MISSING_MANDATORY_PARAM_ERROR);
+      }
+
+
+      // Launch database request
+      UserNeo4JRequester.getActivities(id, (err, getActivitiesResp) => {
+        // Use errorManager to return appropriate dao errors
+        DAOErrorManager.handleErrorOrNullObject(err, getActivitiesResp)
+          .then((objectReturned) => {
+            logger.debug('[UserDAO::getActivities] [OK] objectReturned:' + typeof objectReturned + ' = ' + JSON.stringify(objectReturned));
+            return resolve(objectReturned);
+          })
+          .catch((errorReturned) => {
+            logger.error('[UserDAO::getActivities] [FAILED] errorReturned:' + typeof errorReturned + ' = ' + JSON.stringify(errorReturned));
+            return reject(errorReturned);
+          });
+      });
+    });
+  }
+
+
 }
 
 module.exports = UserDAO;

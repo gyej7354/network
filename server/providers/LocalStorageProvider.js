@@ -111,6 +111,22 @@ class LocalStorageProvider {
     }
   }
 
+  /**
+   *
+   * @param {String} userId
+   * @return {Promise<object>}
+   */
+  static async getUserActivities(userId) {
+    try {
+      // MATCH (u:User {id: 'bd69e05b-152d-4026-a005-ec4859c228eb'})-[r]->(a:Activity)
+      // RETURN r, a
+      const getUserActivities = await UserDAO.getActivities(userId);
+      return getUserActivities;
+    } catch (error) {
+      logger.error('[LocalStorageProvider::getUserActivities] failed to get user activities - ' + JSON.stringify(error));
+      throw error;
+    }
+  }
 }
 
 module.exports = LocalStorageProvider;

@@ -16,6 +16,10 @@ const getUser = async (request, response) => {
   await Controller.handleRequest(request, response, service.getUser);
 };
 
+const getUserActivities = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getUserActivities);
+};
+
 const getUsers = async (request, response) => {
   await Controller.handleRequest(request, response, service.getUsers);
 };
@@ -24,5 +28,6 @@ const getUsers = async (request, response) => {
 module.exports = {
   createUser,
   getUser,
+  getUserActivities,
   getUsers,
 };

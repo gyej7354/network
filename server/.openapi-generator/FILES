@@ -4,6 +4,5 @@ controllers/Controller.js
 controllers/RelationshipController.js
 controllers/UserController.js
 controllers/index.js
-services/RelationshipService.js
 services/index.js
 utils/openapiRouter.js
