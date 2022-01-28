@@ -62,8 +62,25 @@ const getActivities = () => new Promise(
   },
 );
 
+/**
+ * Get user activities
+ *
+ * returns List
+ * */
+const getActivityUsers = ({ activityId }) => new Promise(
+  async (resolve, reject) => {
+    try {
+      const getActivityUsersResp = await LocalStorageProvider.getUserActivities(activityId);
+      const returnedResponse = ActivityMapper.getResponseBodyForGetActivityUsers(activityId, getActivityUsersResp);
+      resolve(Service.successResponse(returnedResponse, 200));
+    } catch (e) {
+      reject(Service.rejectResponse(e));
+    }
+  },
+);
 module.exports = {
   createActivity,
   getActivity,
-  getActivities
+  getActivities,
+  getActivityUsers
 };

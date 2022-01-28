@@ -126,6 +126,35 @@ class ActivityDAO {
       });
     });
   }
+
+
+  static getUsers(id) {
+    return new Promise((resolve, reject) => {
+      const condition = {};
+
+      if (id === undefined) {
+        logger.error('[ActivityDAO::getUsers] [FAILED] : activity id undefined');
+        reject(MISSING_MANDATORY_PARAM_ERROR);
+      }
+
+
+      // Launch database request
+      ActivityNeo4JRequester.getUsers(id, (err, getUsersResp) => {
+        // Use errorManager to return appropriate dao errors
+        DAOErrorManager.handleErrorOrNullObject(err, getUsersResp)
+          .then((objectReturned) => {
+            logger.debug('[ActivityDAO::getUsers] [OK] objectReturned:' + typeof objectReturned + ' = ' + JSON.stringify(objectReturned));
+            return resolve(objectReturned);
+          })
+          .catch((errorReturned) => {
+            logger.error('[ActivityDAO::getUsers] [FAILED] errorReturned:' + typeof errorReturned + ' = ' + JSON.stringify(errorReturned));
+            return reject(errorReturned);
+          });
+      });
+    });
+  }
+
+
 }
 
 module.exports = ActivityDAO;

@@ -118,12 +118,25 @@ class LocalStorageProvider {
    */
   static async getUserActivities(userId) {
     try {
-      // MATCH (u:User {id: 'bd69e05b-152d-4026-a005-ec4859c228eb'})-[r]->(a:Activity)
-      // RETURN r, a
       const getUserActivities = await UserDAO.getActivities(userId);
       return getUserActivities;
     } catch (error) {
       logger.error('[LocalStorageProvider::getUserActivities] failed to get user activities - ' + JSON.stringify(error));
+      throw error;
+    }
+  }
+
+  /**
+   *
+   * @param {String} activityId
+   * @return {Promise<object>}
+   */
+  static async getActivityUsers(activityId) {
+    try {
+      const getActivityUsers = await ActivityDAO.getUsers(activityId);
+      return getActivityUsers;
+    } catch (error) {
+      logger.error('[LocalStorageProvider::getActivityUsers] failed to get users with a relationship to this activity - ' + JSON.stringify(error));
       throw error;
     }
   }

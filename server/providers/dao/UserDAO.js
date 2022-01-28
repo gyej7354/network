@@ -132,7 +132,7 @@ class UserDAO {
       const condition = {};
 
       if (id === undefined) {
-        logger.error('[UserDAO::getUserActivities] [FAILED] : user id undefined');
+        logger.error('[UserDAO::getActivities] [FAILED] : user id undefined');
         reject(MISSING_MANDATORY_PARAM_ERROR);
       }
 

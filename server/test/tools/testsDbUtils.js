@@ -18,6 +18,10 @@ const testRelationshipsWithNames = [
     type: config.RELATIONSHIP_LIKES,
     activityName: 'Activity 2',
     userName: 'User 2'
+  },{
+    type: config.RELATIONSHIP_LIKES,
+    activityName: 'Activity 2',
+    userName: 'User 3'
   }];
 
 const usableTestUsers = [{name: 'Posted Test User 1'}];

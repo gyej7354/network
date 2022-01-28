@@ -20,9 +20,14 @@ const getActivity = async (request, response) => {
   await Controller.handleRequest(request, response, service.getActivity);
 };
 
+const getActivityUsers = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getActivityUsers);
+};
+
 
 module.exports = {
   createActivity,
   getActivities,
   getActivity,
+  getActivityUsers,
 };

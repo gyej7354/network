@@ -3,7 +3,7 @@
 class ActivityMapper {
 
   static getResponseBodyForGetActivity(activity) {
-    let returnedResponseBody =  {
+    let returnedResponseBody = {
       activityId: activity.id,
       name: activity.name,
     };
@@ -18,6 +18,25 @@ class ActivityMapper {
         returnedResponseBody.push(ActivityMapper.getResponseBodyForGetActivity(activity));
       });
     }
+    return returnedResponseBody;
+  }
+
+  static getResponseBodyForGetActivityUsers(activityId, activityUsers) {
+    const returnedResponseBody = [];
+    activityUsers.forEach(user => {
+      returnedResponseBody.push({
+        user: {
+          userId: user.user.id,
+          name: user.user.name
+        },
+        relationship: {
+          relationshipId: user.relationship.id,
+          type: user.relationship.type,
+          userId: user.user.id,
+          activityId: activityId,
+        }
+      })
+    })
     return returnedResponseBody;
   }
 }

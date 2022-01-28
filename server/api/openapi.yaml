@@ -138,6 +138,35 @@ paths:
       tags:
       - Activity
       x-eov-operation-handler: controllers/ActivityController
+  /activity/{activityId}/users:
+    get:
+      description: Get users with relationship to activity
+      operationId: getActivityUsers
+      parameters:
+      - description: Id of the activity
+        explode: false
+        in: path
+        name: activityId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetActivityUsersResponse'
+          description: Get activity users'
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+      - Activity
+      x-eov-operation-handler: controllers/ActivityController
   /activity/:
     get:
       description: Get activity list
@@ -216,6 +245,48 @@ components:
     ErrorResponse:
       additionalProperties: true
       type: object
+    GetActivityUserResponse:
+      additionalProperties: false
+      example:
+        user:
+          userId: 467366a1-af34-468a-9363-480699272ee0
+          name: Olivier
+        relationship:
+          relationshipId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffa0
+          type: LIKES
+          userId: 467366a1-af34-468a-9363-480699272ee0
+          activityId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffae
+      properties:
+        user:
+          $ref: '#/components/schemas/GetUserResponse'
+        relationship:
+          $ref: '#/components/schemas/GetRelationshipResponse'
+      required:
+      - relationship
+      - user
+      type: object
+    GetActivityUsersResponse:
+      additionalProperties: false
+      example:
+      - user:
+          userId: 467366a1-af34-468a-9363-480699272ee0
+          name: Olivier
+        relationship:
+          relationshipId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffa0
+          type: LIKES
+          userId: 467366a1-af34-468a-9363-480699272ee0
+          activityId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffae
+      - user:
+          userId: 467366a1-af34-468a-9363-480699272ee1
+          name: Guillaume
+        relationship:
+          relationshipId: 9bf1586c-eb60-43b5-8f67-2d4059e4ffb0
+          type: LIKES
+          userId: 467366a1-af34-468a-9363-480699272ee1
+          activityId: 467366a1-af34-468a-9363-480699272ee1
+      items:
+        $ref: '#/components/schemas/GetActivityUserResponse'
+      type: array
     GetUserActivityResponse:
       additionalProperties: false
       example:
