@@ -58,11 +58,7 @@ class RelationshipDAO {
         logger.error('[RelationshipDAO::delete] [FAILED] : relationship id  undefined');
         reject(MISSING_MANDATORY_PARAM_ERROR);
       }
-      if (relationship.type === undefined) {
-        logger.error('[RelationshipDAO::delete] [FAILED] : relationship type  undefined');
-        reject(MISSING_MANDATORY_PARAM_ERROR);
-      }
-      const conditions = {};
+       const conditions = {};
 
 
       conditions.id= relationship.id;

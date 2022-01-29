@@ -50,14 +50,27 @@ RETURN type(relationship), relationship.id`;
 
 
   static deleteRelationship(conditions, next) {
-    const filter = `${(conditions.id) ? "id:$id" : ""}`;
-    neo4JSessionInstance.run(`MATCH (n)-[r:${conditions.type} {${filter}} ]->() DELETE r`, conditions)
-      .then(result => {
-        next(null, conditions)
-      })
-      .catch(err => {
-        next(err);
-      })
+    if (conditions.type) {
+      const filter = `${(conditions.id) ? "id:$id" : ""}`;
+      neo4JSessionInstance.run(`MATCH (n)-[r:${conditions.type} {${filter}} ]->() DELETE r`, conditions)
+        .then(result => {
+          next(null, conditions)
+        })
+        .catch(err => {
+          next(err);
+        })
+    } else {
+      const filter = `${(conditions.id) ? "id:$id" : ""}`;
+
+      neo4JSessionInstance.run(`MATCH (n)-[r {${filter}} ]->() DELETE r`, conditions)
+        .then(result => {
+          next(null, conditions)
+        })
+        .catch(err => {
+          next(err);
+        })
+    }
+
   }
 
 }

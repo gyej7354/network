@@ -4,11 +4,11 @@ const LocalStorageProvider = require('../providers/LocalStorageProvider');
 const RelationshipMapper = require('../core/RelationshipMapper');
 
 /**
-* Create a new relationship
-*
-* createRelationshipRequest CreateRelationshipRequest Create relationship input
-* returns GetRelationshipResponse
-* */
+ * Create a new relationship
+ *
+ * createRelationshipRequest CreateRelationshipRequest Create relationship input
+ * returns GetRelationshipResponse
+ * */
 const createRelationship = ({ createRelationshipRequest }) => new Promise(
   async (resolve, reject) => {
     try {
@@ -27,6 +27,30 @@ const createRelationship = ({ createRelationshipRequest }) => new Promise(
   },
 );
 
+/**
+ * Deletes a new relationship
+ *
+ * relationshipId  id of relationship to delete
+ * returns GetRelationshipResponse
+ * */
+const deleteRelationship = ({ relationshipId }) => new Promise(
+  async (resolve, reject) => {
+    try {
+
+      const deleteRelationshipResp = await LocalStorageProvider.deleteRelationship(relationshipId);
+
+      resolve(Service.successResponse({}, 204));
+
+    } catch (e) {
+      reject(Service.rejectResponse(e));
+
+    }
+  },
+);
+
+
+
 module.exports = {
   createRelationship,
+  deleteRelationship
 };

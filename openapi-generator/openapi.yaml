@@ -229,9 +229,42 @@ paths:
           description: Internal Error
       tags:
         - Relationship
+  /relationship/{relationshipId}:
+    delete:
+      description: Deletes relationship
+      operationId: deleteRelationship
+      parameters:
+        - name: relationshipId
+          description: Id of the relationship
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullableEmptyObject'
+          description: the relationship was deleted successfully
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+        - Relationship
 
 components:
   schemas:
+
+    NullableEmptyObject:
+      title: Nullable empty object
+      type: object
+      additionalProperties: false
+      nullable: true
+
     ErrorResponse:
       type: object
       additionalProperties: true

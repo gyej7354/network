@@ -12,7 +12,12 @@ const createRelationship = async (request, response) => {
   await Controller.handleRequest(request, response, service.createRelationship);
 };
 
+const deleteRelationship = async (request, response) => {
+  await Controller.handleRequest(request, response, service.deleteRelationship);
+};
+
 
 module.exports = {
   createRelationship,
+  deleteRelationship,
 };

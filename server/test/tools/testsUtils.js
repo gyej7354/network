@@ -40,6 +40,22 @@ class TestsUtils {
     return app;
   }
 
+  static getPartialDoneFunction(originalDone, splitNumber) {
+    let partialDoneToWait = splitNumber;
+    const partialDone = function (error) {
+      if (error !== undefined) {
+        originalDone(error);
+      } else {
+        partialDoneToWait--;
+        if (partialDoneToWait === 0) {
+          originalDone();
+        }
+      }
+    }
+    return partialDone;
+  }
+
+
 }
 
 module.exports = TestsUtils;

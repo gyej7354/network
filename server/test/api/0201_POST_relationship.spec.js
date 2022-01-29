@@ -14,7 +14,7 @@ describe(`Tests POST /relationship/ API`, function() {
 
     before(TestsDbUtils.beforeTestCommonSetUp);
 
-    after(TestsDbUtils.afterTestCommonClean);
+   after(TestsDbUtils.afterTestCommonClean);
 
   it('Post relationship OK', function(done) {
     try {

@@ -240,8 +240,42 @@ paths:
       tags:
       - Relationship
       x-eov-operation-handler: controllers/RelationshipController
+  /relationship/{relationshipId}:
+    delete:
+      description: Deletes relationship
+      operationId: deleteRelationship
+      parameters:
+      - description: Id of the relationship
+        explode: false
+        in: path
+        name: relationshipId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullableEmptyObject'
+          description: the relationship was deleted successfully
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+      - Relationship
+      x-eov-operation-handler: controllers/RelationshipController
 components:
   schemas:
+    NullableEmptyObject:
+      additionalProperties: false
+      nullable: true
+      title: Nullable empty object
+      type: object
     ErrorResponse:
       additionalProperties: true
       type: object
