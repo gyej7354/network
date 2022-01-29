@@ -9,14 +9,13 @@ const globalVersion = '/api/v1';
 const route = '/activity/';
 
 describe(`Tests POST ${route} API`, function() {
-
   before(TestsDbUtils.beforeTestCommonSetUp);
 
   after(TestsDbUtils.afterTestCommonClean);
 
   it('Post activity OK', function(done) {
     try {
-      const path = globalVersion + "/activity/";
+      const path = globalVersion + '/activity/';
       const sentBody = {
         name: TestsDbUtils.usableTestActivities[0].name
       };
@@ -25,7 +24,7 @@ describe(`Tests POST ${route} API`, function() {
         .send(sentBody)
         .end((error, response) => {
           debug('response.body: %s', JSON.stringify(response.body));
-          TestsDbUtils.pushPostedTestActivityToDelete(response.body)
+          TestsDbUtils.pushPostedTestActivityToDelete(response.body);
 
           expect(error).to.be.null;
           expect(response).to.have.status(201);
@@ -34,9 +33,9 @@ describe(`Tests POST ${route} API`, function() {
           expect(response.body).to.be.an('object');
           expect(Object.keys(response.body)).have.members(['name', 'activityId']);
           expect(response.body).to.have.property('name', sentBody.name);
-          expect(response.body).to.have.property('activityId')
-          expect(response.body.activityId).to.be.an('string')
-          expect(response.body.name).to.equal(TestsDbUtils.usableTestActivities[0].name)
+          expect(response.body).to.have.property('activityId');
+          expect(response.body.activityId).to.be.an('string');
+          expect(response.body.name).to.equal(TestsDbUtils.usableTestActivities[0].name);
 
           done();
         });
@@ -49,7 +48,7 @@ describe(`Tests POST ${route} API`, function() {
 
   it('Post existing activity should return 422', function(done) {
     try {
-      const path = globalVersion + "/activity/";
+      const path = globalVersion + '/activity/';
       const sentBody = {
         name: TestsDbUtils.createTestUsersAndActivitiesResp.activities[0].name
       };
@@ -75,5 +74,4 @@ describe(`Tests POST ${route} API`, function() {
       done();
     }
   });
-
 });

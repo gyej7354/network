@@ -1,9 +1,8 @@
 'use strict';
 
 class ActivityMapper {
-
   static getResponseBodyForGetActivity(activity) {
-    let returnedResponseBody = {
+    const returnedResponseBody = {
       activityId: activity.id,
       name: activity.name,
     };
@@ -23,7 +22,7 @@ class ActivityMapper {
 
   static getResponseBodyForGetActivityUsers(activityId, activityUsers) {
     const returnedResponseBody = [];
-    activityUsers.forEach(user => {
+    activityUsers.forEach((user) => {
       returnedResponseBody.push({
         user: {
           userId: user.user.id,
@@ -35,8 +34,8 @@ class ActivityMapper {
           userId: user.user.id,
           activityId: activityId,
         }
-      })
-    })
+      });
+    });
     return returnedResponseBody;
   }
 }

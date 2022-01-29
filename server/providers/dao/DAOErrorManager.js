@@ -27,7 +27,7 @@ class DAOErrorManager {
       if (err) {
         if (err.name === 'AlreadyExist' && err.code === 422) {
           reject(errorUtils.ERROR_DAO_CONFLICT);
-        } else if  (err.name === 'NotFound' && err.code === 404) {
+        } else if (err.name === 'NotFound' && err.code === 404) {
           reject(errorUtils.ERROR_DAO_NOT_FOUND);
         } else {
           reject(errorUtils.ERROR_DAO_REQUEST_FAILED);

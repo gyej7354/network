@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const Service = require('./Service');
 const LocalStorageProvider = require('../providers/LocalStorageProvider');
 const UserMapper = require('../core/UserMapper');
@@ -6,20 +5,19 @@ const UserMapper = require('../core/UserMapper');
 /**
 * Create a new user
 *
-* createUserRequest CreateUserRequest Create user input
-* returns GetUserResponse
+* @param {object} createUserRequest Create user input
+* @return {object} GetUserResponse
 * */
-const createUser = ({ createUserRequest }) => new Promise(
+const createUser = ({createUserRequest}) => new Promise(
   async (resolve, reject) => {
     try {
       const userToCreate = {
         name: createUserRequest.name
-      }
+      };
       const createUserResp = await LocalStorageProvider.createUser(userToCreate);
       const returnedResponse = UserMapper.getResponseBodyForGetUser(createUserResp);
 
       resolve(Service.successResponse(returnedResponse, 201));
-
     } catch (e) {
       reject(Service.rejectResponse(e));
     }
@@ -29,16 +27,15 @@ const createUser = ({ createUserRequest }) => new Promise(
 * Get user info
 *
 * userId String Id of the user
-* returns GetUserResponse
+* @return {object} GetUserResponse
 * */
-const getUser = ({ userId }) => new Promise(
+const getUser = ({userId}) => new Promise(
   async (resolve, reject) => {
     try {
       const getUserResp = await LocalStorageProvider.getUser(userId);
       const returnedResponse = UserMapper.getResponseBodyForGetUser(getUserResp);
 
       resolve(Service.successResponse(returnedResponse, 200));
-
     } catch (e) {
       reject(Service.rejectResponse(e));
     }
@@ -48,7 +45,7 @@ const getUser = ({ userId }) => new Promise(
 /**
  * Get user list
  *
- * returns List
+ * @return {object} List
  * */
 const getUsers = () => new Promise(
   async (resolve, reject) => {
@@ -65,9 +62,9 @@ const getUsers = () => new Promise(
 /**
  * Get user activities
  *
- * returns List
+ * @return {object} List
  * */
-const getUserActivities = ({ userId }) => new Promise(
+const getUserActivities = ({userId}) => new Promise(
   async (resolve, reject) => {
     try {
       const getUserActivitiesResp = await LocalStorageProvider.getUserActivities(userId);
@@ -78,7 +75,6 @@ const getUserActivities = ({ userId }) => new Promise(
     }
   },
 );
-
 
 
 module.exports = {

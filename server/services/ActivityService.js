@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const Service = require('./Service');
 const LocalStorageProvider = require('../providers/LocalStorageProvider');
 const ActivityMapper = require('../core/ActivityMapper');
@@ -7,19 +6,18 @@ const ActivityMapper = require('../core/ActivityMapper');
 * Create a new activity
 *
 * createActivityRequest CreateActivityRequest Create activity
-* returns GetActivityResponse
+* @return {object} GetActivityResponse
 * */
-const createActivity = ({ createActivityRequest }) => new Promise(
+const createActivity = ({createActivityRequest}) => new Promise(
   async (resolve, reject) => {
     try {
       const activityToCreate = {
         name: createActivityRequest.name
-      }
+      };
       const createActivityResp = await LocalStorageProvider.createActivity(activityToCreate);
       const returnedResponse = ActivityMapper.getResponseBodyForGetActivity(createActivityResp);
 
       resolve(Service.successResponse(returnedResponse, 201));
-
     } catch (e) {
       reject(Service.rejectResponse(e));
     }
@@ -29,16 +27,15 @@ const createActivity = ({ createActivityRequest }) => new Promise(
 * Get activity info
 *
 * activityId String Id of the activity
-* returns GetActivityResponse
+* @return {object} GetActivityResponse
 * */
-const getActivity = ({ activityId }) => new Promise(
+const getActivity = ({activityId}) => new Promise(
   async (resolve, reject) => {
     try {
       const getActivityResp = await LocalStorageProvider.getActivity(activityId);
       const returnedResponse = ActivityMapper.getResponseBodyForGetActivity(getActivityResp);
 
       resolve(Service.successResponse(returnedResponse, 200));
-
     } catch (e) {
       reject(Service.rejectResponse(e));
     }
@@ -48,7 +45,7 @@ const getActivity = ({ activityId }) => new Promise(
 /**
  * Get activity list
  *
- * returns List
+ * @return {object} List
  * */
 const getActivities = () => new Promise(
   async (resolve, reject) => {
@@ -65,9 +62,9 @@ const getActivities = () => new Promise(
 /**
  * Get user activities
  *
- * returns List
+ * @return {object} List
  * */
-const getActivityUsers = ({ activityId }) => new Promise(
+const getActivityUsers = ({activityId}) => new Promise(
   async (resolve, reject) => {
     try {
       const getActivityUsersResp = await LocalStorageProvider.getUserActivities(activityId);

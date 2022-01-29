@@ -1,27 +1,23 @@
 const testsUtils = require('../tools/testsUtils');
 const TestsDbUtils = require('../tools/testsDbUtils');
 const debug = require('debug')('spec:it');
-const debugSetup = require('debug')('spec:setup');
 const chai = require('chai');
 const expect = require('chai').expect;
-const config = require('../../config');
 
 const globalVersion = '/api/v1';
-const route = '/relationship/{relationshipId}';
 
 
 describe(`Tests DELETE /relationship/{relationshipId} API`, function() {
+  before(TestsDbUtils.beforeTestCommonSetUp);
 
-    before(TestsDbUtils.beforeTestCommonSetUp);
-
-    after(TestsDbUtils.afterTestCommonClean);
+  after(TestsDbUtils.afterTestCommonClean);
 
   it('DELETE relationship OK', function(done) {
     try {
       const partialDone = testsUtils.getPartialDoneFunction(done, 2);
 
       const relationshipId = TestsDbUtils.createTestRelationshipsResp[0].id;
-      const path = globalVersion + "/relationship/" + relationshipId;
+      const path = globalVersion + '/relationship/' + relationshipId;
 
       chai.request(testsUtils.getServer())
         .delete(`${path}`)
@@ -51,7 +47,6 @@ describe(`Tests DELETE /relationship/{relationshipId} API`, function() {
 
               partialDone();
             });
-
         });
     } catch (exception) {
       debug('exception: %s', exception.stack);
@@ -59,6 +54,4 @@ describe(`Tests DELETE /relationship/{relationshipId} API`, function() {
       done();
     }
   });
-
-
 });

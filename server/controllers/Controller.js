@@ -38,12 +38,12 @@ class Controller {
   * the filename and its extension
   * @param request
   * @param fieldName
-  * @returns {string}
+  * @return {string}
   */
   static collectFile(request, fieldName) {
     let uploadedFileName = '';
     if (request.files && request.files.length > 0) {
-      const fileObject = request.files.find(file => file.fieldname === fieldName);
+      const fileObject = request.files.find((file) => file.fieldname === fieldName);
       if (fileObject) {
         const fileArray = fileObject.originalname.split('.');
         const extension = fileArray.pop();
@@ -71,7 +71,7 @@ class Controller {
   static collectRequestParams(request) {
     const requestParams = {};
     if (request.openapi.schema.requestBody !== undefined) {
-      const { content } = request.openapi.schema.requestBody;
+      const {content} = request.openapi.schema.requestBody;
       if (content['application/json'] !== undefined) {
         const requestBodyName = camelCase(this.getRequestBodyName(request));
         requestParams[requestBodyName] = request.body;

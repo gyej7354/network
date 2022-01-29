@@ -1,4 +1,3 @@
-const debug = require('debug')('spec:testsDbUtils');
 const debugSetup = require('debug')('spec:setup');
 
 const UserDAO = require('../../providers/dao/UserDAO');
@@ -18,7 +17,7 @@ const testRelationshipsWithNames = [
     type: config.RELATIONSHIP_LIKES,
     activityName: 'Activity 2',
     userName: 'User 2'
-  },{
+  }, {
     type: config.RELATIONSHIP_LIKES,
     activityName: 'Activity 2',
     userName: 'User 3'
@@ -28,21 +27,17 @@ const usableTestUsers = [{name: 'Posted Test User 1'}];
 const usableTestActivities = [{name: 'Posted Test Activity 1'}];
 
 class TestsDbUtils {
-
   static pushPostedTestUserToDelete(user) {
     TestsDbUtils.postedTestUsers.push(user);
   }
 
   static pushPostedTestRelationshipToDelete(relationship) {
     TestsDbUtils.postedTestRelationship.push(relationship);
-
   }
 
   static pushPostedTestActivityToDelete(activity) {
     TestsDbUtils.postedTestActivities.push(activity);
-
   }
-
 
   static beforeTestCommonSetUp(done) {
     TestsDbUtils.usableTestUsers = usableTestUsers;
@@ -56,24 +51,21 @@ class TestsDbUtils {
     TestsDbUtils.createTestUsersAndActivities(testUsers, testActivities)
       .then((createTestUsersAndActivitiesResp) => {
         TestsDbUtils.createTestUsersAndActivitiesResp = createTestUsersAndActivitiesResp;
-        //debugSetup('User and activity Created : ', createTestUsersAndActivitiesResp);
         debugSetup(JSON.stringify(TestsDbUtils.createTestUsersAndActivitiesResp));
         debugSetup('==> done!');
         debugSetup('==> Create test relationships in db');
-        const testRelationships = testRelationshipsWithNames.map(relationshipWithName => {
+        const testRelationships = testRelationshipsWithNames.map((relationshipWithName) => {
           return {
             type: relationshipWithName.type,
-            userId: createTestUsersAndActivitiesResp.users.filter(user => (user.name === relationshipWithName.userName))[0].id,
-            activityId: createTestUsersAndActivitiesResp.activities.filter(activity => (activity.name === relationshipWithName.activityName))[0].id,
-          }
-
+            userId: createTestUsersAndActivitiesResp.users.filter((user) => (user.name === relationshipWithName.userName))[0].id,
+            activityId: createTestUsersAndActivitiesResp.activities.filter((activity) => (activity.name === relationshipWithName.activityName))[0].id,
+          };
         });
 
         TestsDbUtils.createTestRelationships(testRelationships)
           .then((createTestRelationshipsResp) => {
             TestsDbUtils.createTestRelationshipsResp = createTestRelationshipsResp;
             debugSetup(JSON.stringify(TestsDbUtils.createTestRelationshipsResp));
-
             debugSetup('==> done!');
             done();
           })
@@ -94,10 +86,9 @@ class TestsDbUtils {
     debugSetup('==> Delete test users and activities in db');
 
     TestsDbUtils.deleteTestRelationships(TestsDbUtils.createTestRelationshipsResp.concat(TestsDbUtils.postedTestRelationship))
-      .then((deleteTestRelationshipsResp => {
+      .then(((deleteTestRelationshipsResp) => {
         TestsDbUtils.deleteTestUsersAndActivities(testUsers.concat(TestsDbUtils.postedTestUsers), testActivities.concat(TestsDbUtils.postedTestActivities))
           .then((deleteTestUsersAndActivitiesResponse) => {
-            //debugSetup('User and activity Deleted : ', deleteTestUsersAndActivitiesResponse);
             debugSetup('==> done!');
             done();
           })
@@ -116,13 +107,13 @@ class TestsDbUtils {
 
   static createTestUsers(users) {
     return new Promise(async (resolve, reject) => {
-      let createdUsers = [];
-      for (let user of users) {
+      const createdUsers = [];
+      for (const user of users) {
         try {
           const createdUser = await UserDAO.create(user);
-          createdUsers.push(createdUser)
+          createdUsers.push(createdUser);
         } catch (error) {
-          reject(error)
+          reject(error);
         }
       }
       resolve(createdUsers);
@@ -131,14 +122,14 @@ class TestsDbUtils {
 
   static createTestActivities(activities) {
     return new Promise(async (resolve, reject) => {
-      let createdActivities = [];
+      const createdActivities = [];
 
-      for (let activity of activities) {
+      for (const activity of activities) {
         try {
           const createdActivity = await ActivityDAO.create(activity);
-          createdActivities.push(createdActivity)
+          createdActivities.push(createdActivity);
         } catch (error) {
-          reject(error)
+          reject(error);
         }
       }
       resolve(createdActivities);
@@ -150,24 +141,22 @@ class TestsDbUtils {
       try {
         const createdActivities = await TestsDbUtils.createTestActivities(activities);
         const createdUsers = await TestsDbUtils.createTestUsers(users);
-        resolve({users: createdUsers, activities: createdActivities})
-
+        resolve({users: createdUsers, activities: createdActivities});
       } catch (error) {
-        reject(error)
+        reject(error);
       }
-
-    })
+    });
   }
 
   static createTestRelationships(relationships) {
     return new Promise(async (resolve, reject) => {
-      let createdRelationships = [];
-      for (let relationship of relationships) {
+      const createdRelationships = [];
+      for (const relationship of relationships) {
         try {
           const createdRelationship = await RelationshipDAO.create(relationship);
-          createdRelationships.push(createdRelationship)
+          createdRelationships.push(createdRelationship);
         } catch (error) {
-          reject(error)
+          reject(error);
         }
       }
       resolve(createdRelationships);
@@ -177,13 +166,13 @@ class TestsDbUtils {
 
   static deleteTestUsers(users) {
     return new Promise(async (resolve, reject) => {
-      let deletedUsers = [];
-      for (let user of users) {
+      const deletedUsers = [];
+      for (const user of users) {
         try {
-          let deletedUser = await UserDAO.delete(user);
-          deletedUsers.push(deletedUser)
+          const deletedUser = await UserDAO.delete(user);
+          deletedUsers.push(deletedUser);
         } catch (error) {
-          reject(error)
+          reject(error);
         }
       }
       resolve(deletedUsers);
@@ -192,13 +181,13 @@ class TestsDbUtils {
 
   static deleteTestActivities(activities) {
     return new Promise(async (resolve, reject) => {
-      let deletedActivities = [];
-      for (let activity of activities) {
+      const deletedActivities = [];
+      for (const activity of activities) {
         try {
-          let deletedActivity = await ActivityDAO.delete(activity);
-          deletedActivities.push(deletedActivity)
+          const deletedActivity = await ActivityDAO.delete(activity);
+          deletedActivities.push(deletedActivity);
         } catch (error) {
-          reject(error)
+          reject(error);
         }
       }
       resolve(deletedActivities);
@@ -210,31 +199,27 @@ class TestsDbUtils {
       try {
         const deletedActivities = await TestsDbUtils.deleteTestActivities(activities);
         const deletedUsers = await TestsDbUtils.deleteTestUsers(users);
-        resolve([deletedUsers, deletedActivities])
-
+        resolve([deletedUsers, deletedActivities]);
       } catch (error) {
-        reject(error)
+        reject(error);
       }
-
-    })
+    });
   }
 
   static deleteTestRelationships(relationships) {
     return new Promise(async (resolve, reject) => {
-      let deletedRelationships = [];
-      for (let relationship of relationships) {
+      const deletedRelationships = [];
+      for (const relationship of relationships) {
         try {
-          let deletedRelationship = await RelationshipDAO.delete(relationship);
-          deletedRelationships.push(deletedRelationship)
+          const deletedRelationship = await RelationshipDAO.delete(relationship);
+          deletedRelationships.push(deletedRelationship);
         } catch (error) {
-          reject(error)
+          reject(error);
         }
       }
       resolve(deletedRelationships);
     });
   }
-
-
 }
 
 module.exports = TestsDbUtils;

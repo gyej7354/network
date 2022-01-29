@@ -1,10 +1,9 @@
 'use strict';
 const uuid = require('node-uuid');
-const Neo4JSession = require('./Neo4jSession')
-var neo4JSessionInstance = new Neo4JSession().getInstance();
+const Neo4JSession = require('./Neo4jSession');
+const neo4JSessionInstance = new Neo4JSession().getInstance();
 
 class RelationshipNeo4JRequester {
-
   static defineRelationshipId() {
     return uuid.v4();
   }
@@ -19,60 +18,56 @@ CREATE (user)-[relationship:${object.type} {id: '${object.id}'}]->(activity)
 RETURN type(relationship), relationship.id`;
 
     neo4JSessionInstance.run(matchRequest, {})
-      .then(results => {
+      .then((results) => {
         if (results.records.length != 0) {
           return next({code: 422, name: 'AlreadyExist'}, null);
         } else {
-
           neo4JSessionInstance.run(request, object)
-            .then(results => {
-
-              const singleRecord = results.records[0]
+            .then((results) => {
+              const singleRecord = results.records[0];
               const createdRelationship = {
                 id: singleRecord.get(1),
                 type: singleRecord.get(0),
                 userId: object.userId,
                 activityId: object.activityId
-              }
+              };
 
 
-              next(null, createdRelationship)
+              next(null, createdRelationship);
             })
-            .catch(err => {
+            .catch((err) => {
               next(err);
-            })
+            });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         next(err);
-      })
+      });
   }
 
 
   static deleteRelationship(conditions, next) {
     if (conditions.type) {
-      const filter = `${(conditions.id) ? "id:$id" : ""}`;
+      const filter = `${(conditions.id) ? 'id:$id' : ''}`;
       neo4JSessionInstance.run(`MATCH (n)-[r:${conditions.type} {${filter}} ]->() DELETE r`, conditions)
-        .then(result => {
-          next(null, conditions)
+        .then((result) => {
+          next(null, conditions);
         })
-        .catch(err => {
+        .catch((err) => {
           next(err);
-        })
+        });
     } else {
-      const filter = `${(conditions.id) ? "id:$id" : ""}`;
+      const filter = `${(conditions.id) ? 'id:$id' : ''}`;
 
       neo4JSessionInstance.run(`MATCH (n)-[r {${filter}} ]->() DELETE r`, conditions)
-        .then(result => {
-          next(null, conditions)
+        .then((result) => {
+          next(null, conditions);
         })
-        .catch(err => {
+        .catch((err) => {
           next(err);
-        })
+        });
     }
-
   }
-
 }
 
 module.exports = RelationshipNeo4JRequester;

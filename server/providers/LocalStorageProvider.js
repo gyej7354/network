@@ -5,7 +5,6 @@ const ActivityDAO = require('./dao/ActivityDAO');
 const RelationshipDAO = require('./dao/RelationshipDAO');
 
 class LocalStorageProvider {
-
   /**
    *
    * @param {String} userId
@@ -101,7 +100,6 @@ class LocalStorageProvider {
    */
   static async createRelationship(relationship) {
     try {
-
       const createdRelationship = await RelationshipDAO.create(relationship);
 
       return createdRelationship;
@@ -148,16 +146,14 @@ class LocalStorageProvider {
    */
   static async deleteRelationship(relationshipId) {
     try {
-      const deleteRelationshipResponse = await RelationshipDAO.delete({id:relationshipId});
+      const deleteRelationshipResponse = await RelationshipDAO.delete({id: relationshipId});
       logger.debug('[LocalStorageProvider::deleteRelationship]  - Deleted ' + JSON.stringify(deleteRelationshipResponse));
-      return deleteRelationshipResponse
+      return deleteRelationshipResponse;
     } catch (error) {
       logger.error('[LocalStorageProvider::deleteRelationship] failed to delete relationship' + JSON.stringify(error));
       throw error;
     }
   }
-
-  deleteRelationship
 }
 
 module.exports = LocalStorageProvider;

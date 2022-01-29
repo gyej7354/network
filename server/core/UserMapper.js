@@ -1,9 +1,8 @@
 'use strict';
 
 class UserMapper {
-
   static getResponseBodyForGetUser(user) {
-    let returnedResponseBody = {
+    const returnedResponseBody = {
       userId: user.id,
       name: user.name,
     };
@@ -23,7 +22,7 @@ class UserMapper {
 
   static getResponseBodyForGetUserActivities(userId, userActivities) {
     const returnedResponseBody = [];
-    userActivities.forEach(activity => {
+    userActivities.forEach((activity) => {
       returnedResponseBody.push({
         activity: {
           activityId: activity.activity.id,
@@ -35,14 +34,12 @@ class UserMapper {
           userId: userId,
           activityId: activity.activity.id,
         }
-      })
-    })
+      });
+    });
 
 
     return returnedResponseBody;
   }
-
-
 }
 
 module.exports = UserMapper;

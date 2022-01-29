@@ -9,7 +9,6 @@ const globalVersion = '/api/v1';
 const route = '/activity';
 
 describe(`Tests GET ${route} API OK`, function() {
-  
   before(TestsDbUtils.beforeTestCommonSetUp);
 
   after(TestsDbUtils.afterTestCommonClean);
@@ -35,5 +34,4 @@ describe(`Tests GET ${route} API OK`, function() {
       done();
     }
   });
-
 });

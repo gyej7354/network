@@ -25,7 +25,7 @@ function handleError(err, request, response, next) {
  *
  *  Requests made to paths that are not in the OpernAPI scope
  *  are passed on to the next middleware handler.
- * @returns {Function}
+ * @return {Function}
  */
 function openApiRouter() {
   return async (request, response, next) => {
@@ -36,8 +36,7 @@ function openApiRouter() {
        * If none was applied This is because the path requested is not in the schema.
        * If there's no openapi object, we have nothing to do, and pass on to next middleware.
        */
-      if (request.openapi === undefined
-          || request.openapi.schema === undefined
+      if (request.openapi === undefined || request.openapi.schema === undefined
       ) {
         next();
         return;
@@ -58,7 +57,7 @@ function openApiRouter() {
       }
     } catch (error) {
       console.error(error);
-      const err = { code: 500, error: error.message };
+      const err = {code: 500, error: error.message};
       handleError(err, request, response, next);
     }
   };

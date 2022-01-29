@@ -9,14 +9,13 @@ const globalVersion = '/api/v1';
 const route = '/users/{userId}/activities';
 
 describe(`Tests GET ${route} API`, function() {
-
   before(TestsDbUtils.beforeTestCommonSetUp);
 
   after(TestsDbUtils.afterTestCommonClean);
 
   it(`Get user activities with two activities in db`, function(done) {
     try {
-      let userId = TestsDbUtils.createTestUsersAndActivitiesResp.users[1].id;
+      const userId = TestsDbUtils.createTestUsersAndActivitiesResp.users[1].id;
 
       const path = globalVersion + '/users/' + userId + '/activities/';
       chai.request(testsUtils.getServer())
@@ -28,13 +27,13 @@ describe(`Tests GET ${route} API`, function() {
           expect(response).to.be.json;
           expect(response.body).to.exist;
           expect(response.body).to.be.an('array');
-          response.body.forEach(activity => {
+          response.body.forEach((activity) => {
             expect(Object.keys(activity)).have.members(['relationship', 'activity']);
             expect(activity.relationship).to.have.property('relationshipId');
             expect(activity.relationship).to.have.property('type');
             expect(activity.relationship).to.have.property('userId');
             expect(activity.relationship).to.have.property('activityId');
-          })
+          });
           done();
         });
     } catch (exception) {
@@ -46,7 +45,7 @@ describe(`Tests GET ${route} API`, function() {
 
   it(`Get user activities if no activity should return empty array`, function(done) {
     try {
-      let userId = TestsDbUtils.createTestUsersAndActivitiesResp.users[0].id;
+      const userId = TestsDbUtils.createTestUsersAndActivitiesResp.users[0].id;
 
       const path = globalVersion + '/users/' + userId + '/activities/';
       chai.request(testsUtils.getServer())
@@ -69,5 +68,4 @@ describe(`Tests GET ${route} API`, function() {
       done();
     }
   });
-
 });

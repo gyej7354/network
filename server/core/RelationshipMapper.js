@@ -1,9 +1,8 @@
 'use strict';
 
 class RelationshipMapper {
-
   static getResponseBodyForGetRelationship(relationship) {
-    let returnedResponseBody =  {
+    const returnedResponseBody = {
       relationshipId: relationship.id,
       type: relationship.type,
       userId: relationship.userId,
@@ -11,9 +10,6 @@ class RelationshipMapper {
     };
     return returnedResponseBody;
   }
-
-
-
 }
 
 module.exports = RelationshipMapper;

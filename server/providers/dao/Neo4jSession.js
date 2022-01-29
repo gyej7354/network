@@ -3,10 +3,9 @@ const config = require('../../config');
 const logger = require('../../logger');
 
 class Neo4JSession {
-
   constructor() {
     if (!Neo4JSession.instance) {
-      logger.info('Opening Database Connection')
+      logger.info('Opening Database Connection');
       Neo4JSession.driver = neo4j.driver(config.NEO4J_DB_URL, neo4j.auth.basic(config.NEO4J_USERNAME, config.NEO4J_PASSWORD));
       Neo4JSession.instance = Neo4JSession.driver.session();
     }
@@ -17,7 +16,7 @@ class Neo4JSession {
   }
 
   closeConnection() {
-    logger.info('Closing Database Connection')
+    logger.info('Closing Database Connection');
 
     Neo4JSession.instance.close();
     Neo4JSession.driver.close();

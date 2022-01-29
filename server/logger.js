@@ -1,7 +1,7 @@
 const config = require('./config');
 const httpContext = require('express-http-context');
 
-const { transports, createLogger, format, addColors } = require('winston');
+const {transports, createLogger, format, addColors} = require('winston');
 
 addColors({
   error: 'red',
@@ -25,7 +25,7 @@ const logger = createLogger({
     format.timestamp(),
     logFormat,
   ),
-  defaultMeta: { service: 'user-service' },
+  defaultMeta: {service: 'user-service'},
   transports: [
     new transports.Console(),
   ],

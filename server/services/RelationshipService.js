@@ -7,22 +7,20 @@ const RelationshipMapper = require('../core/RelationshipMapper');
  * Create a new relationship
  *
  * createRelationshipRequest CreateRelationshipRequest Create relationship input
- * returns GetRelationshipResponse
+ * @return {object} GetRelationshipResponse
  * */
-const createRelationship = ({ createRelationshipRequest }) => new Promise(
+const createRelationship = ({createRelationshipRequest}) => new Promise(
   async (resolve, reject) => {
     try {
       const relationshipToCreate = {
         ...createRelationshipRequest
-      }
+      };
       const createRelationshipResp = await LocalStorageProvider.createRelationship(relationshipToCreate);
       const returnedResponse = RelationshipMapper.getResponseBodyForGetRelationship(createRelationshipResp);
 
       resolve(Service.successResponse(returnedResponse, 201));
-
     } catch (e) {
       reject(Service.rejectResponse(e));
-
     }
   },
 );
@@ -31,23 +29,19 @@ const createRelationship = ({ createRelationshipRequest }) => new Promise(
  * Deletes a new relationship
  *
  * relationshipId  id of relationship to delete
- * returns GetRelationshipResponse
+ * @return {object}  empty object
  * */
-const deleteRelationship = ({ relationshipId }) => new Promise(
+const deleteRelationship = ({relationshipId}) => new Promise(
   async (resolve, reject) => {
     try {
-
       const deleteRelationshipResp = await LocalStorageProvider.deleteRelationship(relationshipId);
 
       resolve(Service.successResponse({}, 204));
-
     } catch (e) {
       reject(Service.rejectResponse(e));
-
     }
   },
 );
-
 
 
 module.exports = {

@@ -1,5 +1,4 @@
 const testsUtils = require('../tools/testsUtils');
-const debug = require('debug')('spec:startServer');
 
 const nock = require('nock');
 

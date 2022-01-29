@@ -16,7 +16,7 @@ const launchServer = async () => {
   }
 };
 
-launchServer().catch(e => logger.error(e));
+launchServer().catch((e) => logger.error(e));
 
 // for tests
 module.exports = expressServer.app;

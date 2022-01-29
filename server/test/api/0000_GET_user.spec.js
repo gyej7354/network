@@ -9,15 +9,14 @@ const globalVersion = '/api/v1';
 const route = '/users/{userId}';
 
 describe(`Tests GET ${route} API`, function() {
-
   before(TestsDbUtils.beforeTestCommonSetUp);
 
   after(TestsDbUtils.afterTestCommonClean);
 
   it(`Get user OK`, function(done) {
     try {
-      let userId = TestsDbUtils.createTestUsersAndActivitiesResp.users[0].id;
-      let expectedUserName = TestsDbUtils.createTestUsersAndActivitiesResp.users[0].name;
+      const userId = TestsDbUtils.createTestUsersAndActivitiesResp.users[0].id;
+      const expectedUserName = TestsDbUtils.createTestUsersAndActivitiesResp.users[0].name;
 
       const path = globalVersion + '/users/' + userId;
       chai.request(testsUtils.getServer())
@@ -64,5 +63,4 @@ describe(`Tests GET ${route} API`, function() {
       done();
     }
   });
-
 });

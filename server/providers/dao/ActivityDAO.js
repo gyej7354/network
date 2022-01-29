@@ -9,7 +9,6 @@ const ActivityNeo4JRequester = require('./ActivityNeo4JRequester');
 const MISSING_MANDATORY_PARAM_ERROR = errorUtils.ERROR_DAO_MISSING_MANDATORY_PARAM;
 
 class ActivityDAO {
-
   static create(object) {
     return new Promise((resolve, reject) => {
       // Verify parameters
@@ -130,8 +129,6 @@ class ActivityDAO {
 
   static getUsers(id) {
     return new Promise((resolve, reject) => {
-      const condition = {};
-
       if (id === undefined) {
         logger.error('[ActivityDAO::getUsers] [FAILED] : activity id undefined');
         reject(MISSING_MANDATORY_PARAM_ERROR);
@@ -153,8 +150,6 @@ class ActivityDAO {
       });
     });
   }
-
-
 }
 
 module.exports = ActivityDAO;

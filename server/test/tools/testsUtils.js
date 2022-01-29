@@ -4,8 +4,6 @@ const chaiHttp = require('chai-http');
 
 chai.use(chaiHttp);
 
-const testEnv = require('../env.json');
-
 let app = undefined;
 
 const nock = require('nock');
@@ -42,7 +40,7 @@ class TestsUtils {
 
   static getPartialDoneFunction(originalDone, splitNumber) {
     let partialDoneToWait = splitNumber;
-    const partialDone = function (error) {
+    const partialDone = function(error) {
       if (error !== undefined) {
         originalDone(error);
       } else {
@@ -51,11 +49,9 @@ class TestsUtils {
           originalDone();
         }
       }
-    }
+    };
     return partialDone;
   }
-
-
 }
 
 module.exports = TestsUtils;

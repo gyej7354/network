@@ -9,7 +9,6 @@ const RelationshipNeo4JRequester = require('./RelationshipNeo4JRequester');
 const MISSING_MANDATORY_PARAM_ERROR = errorUtils.ERROR_DAO_MISSING_MANDATORY_PARAM;
 
 class RelationshipDAO {
-
   static create(object) {
     return new Promise((resolve, reject) => {
       // Verify parameters
@@ -58,19 +57,17 @@ class RelationshipDAO {
         logger.error('[RelationshipDAO::delete] [FAILED] : relationship id  undefined');
         reject(MISSING_MANDATORY_PARAM_ERROR);
       }
-       const conditions = {};
+      const conditions = {};
 
 
       conditions.id= relationship.id;
       conditions.type= relationship.type;
 
 
-
       // Launch database request
       RelationshipNeo4JRequester.deleteRelationship(conditions, (err, response) => {
         DAOErrorManager.handleErrorOrNullObject(err, response)
           .then((objectReturned) => {
-            // If no error, returns the deleted relationship
             resolve(relationship);
           })
           .catch((errorReturned) => {
@@ -80,8 +77,6 @@ class RelationshipDAO {
       });
     });
   }
-
-
 }
 
 module.exports = RelationshipDAO;
