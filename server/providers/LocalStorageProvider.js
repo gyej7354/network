@@ -37,6 +37,19 @@ class LocalStorageProvider {
 
   /**
    *
+   * @param {String} userId
+   * @return {Promise<object>}
+   */
+  static async deleteUser(userId) {
+    try {
+      return await UserDAO.delete({id: userId} );
+    } catch (error) {
+      logger.error('[LocalStorageProvider::deleteUser] failed to delete user - ' + JSON.stringify( error));
+      throw error;
+    }
+  }
+  /**
+   *
    * @param {Object} matchingConditions
    * @return {Promise<[string]>}
    */

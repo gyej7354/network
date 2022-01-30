@@ -6,6 +6,34 @@ servers:
 - url: /api/v1/
 paths:
   /users/{userId}:
+    delete:
+      description: Deletes user and relationship outgoing from user
+      operationId: deleteUser
+      parameters:
+      - description: Id of the user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullableEmptyObject'
+          description: The user and its relationships were deleted successfully
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+      - User
+      x-eov-operation-handler: controllers/UserController
     get:
       description: Get user info
       operationId: getUser

@@ -42,15 +42,25 @@ class UserNeo4JRequester {
   }
 
   static deleteUser(conditions, next) {
-    const filter = `${(conditions.id)? 'id:$id,' : ''} ${(conditions.name)? 'name:$name' : ''} `;
-
-    neo4JSessionInstance.run(`MATCH (users:User {${filter}} ) DELETE users`, conditions)
-      .then((result) => {
-        next(null, conditions);
-      })
-      .catch((err) => {
-        next(err);
-      });
+    if ( conditions.name ) {
+      const filter = `${(conditions.id)? 'id:$id,' : ''} ${(conditions.name)? 'name:$name' : ''} `;
+      neo4JSessionInstance.run(`MATCH (users:User {${filter}} ) DELETE users`, conditions)
+        .then((result) => {
+          next(null, conditions);
+        })
+        .catch((err) => {
+          next(err);
+        });
+    } else {
+      const filter = `${(conditions.id)? 'id:$id' : ''} `;
+      neo4JSessionInstance.run(`MATCH (users:User {${filter}} ) DELETE users`, conditions)
+        .then((result) => {
+          next(null, conditions);
+        })
+        .catch((err) => {
+          next(err);
+        });
+    }
   }
 
   static findOne(user, next) {

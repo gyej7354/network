@@ -34,6 +34,31 @@ paths:
           description: Internal Error
       tags:
         - User
+    delete:
+      description: Deletes user and relationship outgoing from user
+      operationId: deleteUser
+      parameters:
+        - name: userId
+          description: Id of the user
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullableEmptyObject'
+          description: The user and its relationships were deleted successfully
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+        - User
   /users/{userId}/activities:
     get:
       description: Get user activities
