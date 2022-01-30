@@ -67,6 +67,10 @@ const getUsers = () => new Promise(
 const getUserActivities = ({userId}) => new Promise(
   async (resolve, reject) => {
     try {
+      // Check if user exist
+      await LocalStorageProvider.getUser(userId);
+
+
       const getUserActivitiesResp = await LocalStorageProvider.getUserActivities(userId);
       const returnedResponse = UserMapper.getResponseBodyForGetUserActivities(userId, getUserActivitiesResp);
       resolve(Service.successResponse(returnedResponse, 200));

@@ -68,4 +68,33 @@ describe(`Tests GET ${route} API`, function() {
       done();
     }
   });
+
+  it(`Get user activities if unknown user should return 404`, function(done) {
+    try {
+      const userId = 'unknown';
+
+      const path = globalVersion + '/users/' + userId + '/activities/';
+      chai.request(testsUtils.getServer())
+        .get(`${path}`)
+        .end((error, response) => {
+          debug('response.body: %s', JSON.stringify(response.body));
+          expect(error).to.be.null;
+          expect(response).to.have.status(404);
+          expect(response).to.be.json;
+          expect(response.body).to.exist;
+          expect(response.body).to.be.an('object');
+          expect(response.body).to.have.property('internalErrorCode', 404);
+          expect(response.body).to.have.property('message', 'Resource not found');
+          expect(response.body).to.have.property('description', 'The requested URI or the requested resource does not exist.');
+
+
+
+          done();
+        });
+    } catch (exception) {
+      debug('exception: %s', exception.stack);
+      expect.fail('it test throws an exception');
+      done();
+    }
+  });
 });
