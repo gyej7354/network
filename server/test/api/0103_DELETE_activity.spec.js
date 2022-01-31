@@ -7,17 +7,17 @@ const expect = require('chai').expect;
 const globalVersion = '/api/v1';
 
 
-describe(`Tests DELETE /users/{userId} API`, function() {
+describe(`Tests DELETE /activity/{activityId} API`, function() {
   before(TestsDbUtils.beforeTestCommonSetUp);
 
   after(TestsDbUtils.afterTestCommonClean);
 
-  it('DELETE user with no relationship OK', function(done) {
+  it('DELETE activity with no relationship OK', function(done) {
     try {
       const partialDone = testsUtils.getPartialDoneFunction(done, 2);
 
-      const userId = TestsDbUtils.createTestUsersAndActivitiesResp.users[0].id;
-      const path = globalVersion + '/users/' + userId;
+      const activityId = TestsDbUtils.createTestUsersAndActivitiesResp.activities[0].id;
+      const path = globalVersion + '/activity/' + activityId;
 
       chai.request(testsUtils.getServer())
         .delete(`${path}`)
@@ -31,9 +31,9 @@ describe(`Tests DELETE /users/{userId} API`, function() {
           expect(Object.keys(response.body)).have.members([]);
           partialDone();
 
-          const getUserPath = globalVersion + '/users/' + userId;
+          const getActivityPath = globalVersion + '/activity/' + activityId;
           chai.request(testsUtils.getServer())
-            .get(`${getUserPath}`)
+            .get(`${getActivityPath}`)
             .end((error, response) => {
               debug('response.body: %s', JSON.stringify(response.body));
               expect(error).to.be.null;
@@ -56,12 +56,12 @@ describe(`Tests DELETE /users/{userId} API`, function() {
     }
   });
 
-  it('DELETE user with 2 relationship OK', function(done) {
+  it('DELETE activity with 2 relationship OK', function(done) {
     try {
       const partialDone = testsUtils.getPartialDoneFunction(done, 2);
 
-      const userId = TestsDbUtils.createTestUsersAndActivitiesResp.users[1].id;
-      const path = globalVersion + '/users/' + userId;
+      const activityId = TestsDbUtils.createTestUsersAndActivitiesResp.activities[1].id;
+      const path = globalVersion + '/activity/' + activityId;
 
       chai.request(testsUtils.getServer())
         .delete(`${path}`)
@@ -75,9 +75,9 @@ describe(`Tests DELETE /users/{userId} API`, function() {
           expect(Object.keys(response.body)).have.members([]);
           partialDone();
 
-          const getUserActivitiesPath = globalVersion + '/users/' + userId;
+          const getActivityPath = globalVersion + '/activity/' + activityId;
           chai.request(testsUtils.getServer())
-            .get(`${getUserActivitiesPath}`)
+            .get(`${getActivityPath}`)
             .end((error, response) => {
               debug('response.body: %s', JSON.stringify(response.body));
               expect(error).to.be.null;

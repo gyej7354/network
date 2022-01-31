@@ -12,6 +12,10 @@ const createActivity = async (request, response) => {
   await Controller.handleRequest(request, response, service.createActivity);
 };
 
+const deleteActivity = async (request, response) => {
+  await Controller.handleRequest(request, response, service.deleteActivity);
+};
+
 const getActivities = async (request, response) => {
   await Controller.handleRequest(request, response, service.getActivities);
 };
@@ -27,6 +31,7 @@ const getActivityUsers = async (request, response) => {
 
 module.exports = {
   createActivity,
+  deleteActivity,
   getActivities,
   getActivity,
   getActivityUsers,

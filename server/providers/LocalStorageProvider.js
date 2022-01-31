@@ -94,6 +94,19 @@ class LocalStorageProvider {
 
   /**
    *
+   * @param {String} activityId
+   * @return {Promise<object>}
+   */
+  static async deleteActivity(activityId) {
+    try {
+      return await ActivityDAO.delete({id: activityId} );
+    } catch (error) {
+      logger.error('[LocalStorageProvider::deleteActivity] failed to delete activity - ' + JSON.stringify( error));
+      throw error;
+    }
+  }
+  /**
+   *
    * @param {Object} matchingConditions
    * @return {Promise<[string]>}
    */

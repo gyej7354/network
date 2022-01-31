@@ -157,6 +157,31 @@ paths:
           description: Internal Error
       tags:
         - Activity
+    delete:
+      description: delete activity and related relationships
+      operationId: deleteActivity
+      parameters:
+        - name: activityId
+          description: Id of the activity
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullableEmptyObject'
+          description: The activity and its relationships were deleted successfully
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Error
+      tags:
+        - Activity
   /activity/{activityId}/users:
     get:
       description: Get users with relationship to activity

@@ -75,9 +75,34 @@ const getActivityUsers = ({activityId}) => new Promise(
     }
   },
 );
+
+/**
+ * Delete activity and relationships
+ *
+ * activityId String Id of the activity
+ * @return {object} empty object
+ * */
+const deleteActivity = ({activityId}) => new Promise(
+  async (resolve, reject) => {
+    try {
+      const getActivityUsersResp = await LocalStorageProvider.getActivityUsers(activityId);
+
+      for (const activityUser of getActivityUsersResp) {
+        await LocalStorageProvider.deleteRelationship(activityUser.relationship.id);
+      }
+
+      await LocalStorageProvider.deleteActivity(activityId);
+      resolve(Service.successResponse({}, 204));
+    } catch (e) {
+      reject(Service.rejectResponse(e));
+    }
+  },
+);
+
 module.exports = {
   createActivity,
   getActivity,
   getActivities,
-  getActivityUsers
+  getActivityUsers,
+  deleteActivity
 };

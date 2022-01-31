@@ -87,8 +87,6 @@ describe(`Tests GET ${route} API`, function() {
           expect(response.body).to.have.property('message', 'Resource not found');
           expect(response.body).to.have.property('description', 'The requested URI or the requested resource does not exist.');
 
-
-
           done();
         });
     } catch (exception) {
